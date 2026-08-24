@@ -83,6 +83,7 @@ Colonnes du CSV :
 
 ## Licence
 
-**By © The Day Info, tous droits réservés.**
-Voir [LICENSE](LICENSE).
+Ce projet est distribué sous licence **MIT** — voir [LICENSE](LICENSE) pour les détails.
+
+© 2026 The Day Info — armelyara  
 Contact : armelyara@thedayinfo.com
