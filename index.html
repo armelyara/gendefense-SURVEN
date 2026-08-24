@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <title>GenDefense — Côte d'Ivoire</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#faf7f2">
+  <meta name="description"
+    content="Risque sanitaire lié au mercure de l'orpaillage clandestin en Côte d'Ivoire — carte, exposés, projection, toxicogénomique.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="MercuriScan">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+  <link rel="stylesheet" href="vendor/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="brand"><span class="drop"></span>GenDefense - Risque sanitaire lié au mercure de l'orpaillage
+      clandestin en Côte d'Ivoire</div>
+    <nav class="topnav" id="topnav" aria-label="Navigation principale">
+      <button data-screen="une" aria-current="true">L'enquête</button>
+      <button data-screen="carte">Carte</button>
+      <button data-screen="exposes">Exposés</button>
+      <button data-screen="consequences">Conséquences</button>
+      <button data-screen="projection">Projection</button>
+      <button data-screen="agir">Agir</button>
+      <button data-screen="science">Science</button>
+    </nav>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button id="installBtn" class="badge"
+        style="display:none;cursor:pointer;color:var(--teal);border-color:#0d6e7844">⤓ Installer</button>
+      <span class="badge">DOSSIER OUVERT</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- UNE -->
+    <section class="screen active" id="s-une">
+      <div class="hero-grid">
+        <div>
+          <div class="kicker">Côte d'Ivoire · Mercure</div>
+          <h1 class="headline">L'orpaillage clandestin empoisonne les cours d'eau ivoiriens</h1>
+          <p class="dek">Ce que le mercure de l'orpaillage clandestin fait, en silence, aux populations en aval des
+            mines.</p>
+          <div class="statrow">
+            <div class="cell">
+              <div class="num" id="u_hq" style="color:var(--red)">—</div>
+              <div class="lab">La référence</div>
+            </div>
+            <div class="cell">
+              <div class="num" id="u_pop">—</div>
+              <div class="lab">Exposés</div>
+            </div>
+            <div class="cell">
+              <div class="num" id="u_child" style="color:var(--orange)">—</div>
+              <div class="lab">Enfants &lt; 5 ans</div>
+            </div>
+          </div>
+          <div class="steps">
+            <div class="step"><span class="no" style="color:var(--red)">01</span>
+              <div>
+                <div class="t">Le mercure extrait l'or</div>
+                <div class="d">Rejeté dans les rivières, il se transforme en méthylmercure toxique.</div>
+              </div>
+            </div>
+            <div class="step"><span class="no" style="color:var(--orange)">02</span>
+              <div>
+                <div class="t">Il monte dans la chaîne alimentaire</div>
+                <div class="d">Poissons puis assiettes des familles — l'exposition dépasse le seuil.</div>
+              </div>
+            </div>
+            <div class="step"><span class="no" style="color:var(--gold)">03</span>
+              <div>
+                <div class="t">Les plus fragiles paient le prix</div>
+                <div class="d">Femmes enceintes, fœtus et jeunes enfants en première ligne.</div>
+              </div>
+            </div>
+          </div>
+          <div class="verdict">
+            <span class="pill" id="u_pill"><span class="dot"></span><span id="u_pilltxt">—</span></span>
+            <div>
+              <div style="font-family:var(--disp);font-weight:800;font-size:18px" id="u_zone">—</div>
+              <div class="mono" style="font-size:11px;color:var(--faint)" id="u_zmeta">—</div>
+            </div>
+          </div>
+          <div class="disclaimer"><span>⚠</span>
+            <div><b>Simulateur de scénarios.</b> Les concentrations de mercure sont des hypothèses ajustables ; les
+              seuils
+              (OMS/JECFA) et les effets sont réels. On répond à « si le mercure atteint X, alors… » — jamais un
+              diagnostic.</div>
+          </div>
+        </div>
+        <div>
+          <div class="photo"><span class="tag">◻ PHOTO — RIVIÈRE / ORPAILLAGE</span><span class="enq">ENQUÊTE</span>
+          </div>
+          <p class="fig" style="margin-top:10px">Fig. — Rivière en aval d'un site d'orpaillage illégal. Zone active : <b
+              id="u_zonefig">—</b>.</p>
+          <div class="card" style="margin-top:14px">
+            <div class="kicker" style="color:var(--faint)">Projection HQ · statu quo</div>
+            <div id="u_spark" style="margin-top:8px"></div>
+            <p class="fig" style="margin-top:6px">Prudent, à exposition constante. Voir <button class="linklike"
+                data-screen="projection"
+                style="background:none;border:none;color:var(--red);font:inherit;cursor:pointer;padding:0;text-decoration:underline">Projection
+                ›</button></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CARTE ============ -->
+    <section class="screen" id="s-carte">
+      <div class="shead">
+        <div class="kicker">La carte</div>
+        <h2>Où le danger se concentre</h2>
+        <div class="cap">Fond OpenStreetMap réel · taille du point ∝ population · couleur = niveau de HQ. Touche un
+          point ou une ligne.</div>
+      </div>
+      <div class="card">
+        <div id="map"></div>
+        <div class="maplegend">
+          <span><i style="background:var(--green)"></i>Faible</span>
+          <span><i style="background:var(--gold)"></i>Modéré</span>
+          <span><i style="background:var(--orange)"></i>Élevé</span>
+          <span><i style="background:var(--red)"></i>Urgent</span>
+          <span style="margin-left:auto">Point ∝ population</span>
+        </div>
+        <p class="fig" style="margin-top:10px">Fig. 1 — Zones prioritaires. Coordonnées réelles ; concentrations =
+          scénarios ajustables, pas des mesures.</p>
+      </div>
+      <div class="card">
+        <div class="shead" style="margin-bottom:8px">
+          <h2 style="font-size:18px">Zones classées par risque</h2>
+        </div>
+        <div class="zlist" id="zlist"></div>
+      </div>
+    </section>
+
+    <!-- ============ EXPOSÉS ============ -->
+    <section class="screen" id="s-exposes">
+      <div class="shead">
+        <div class="kicker">Les plus exposés</div>
+        <h2>Qui est en première ligne</h2>
+      </div>
+      <p class="fig" style="margin:-4px 0 14px">Des effets à surveiller pour ces groupes — jamais une maladie prédite
+        pour quelqu'un.</p>
+      <div class="card">
+        <div class="exlist">
+          <div class="exrow">
+            <div class="th"><svg viewBox="0 0 24 24">
+                <circle cx="12" cy="7" r="3.2" />
+                <path d="M12 10.5c-1 3-1 6 0 10" />
+              </svg></div>
+            <div style="flex:1">
+              <div class="nm">Femmes enceintes &amp; fœtus</div>
+              <div class="d">Neurodéveloppement · transfert placentaire</div>
+            </div><span class="sev" style="color:var(--red)">●●●●</span>
+          </div>
+          <div class="exrow">
+            <div class="th"><svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="3" />
+                <path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+              </svg></div>
+            <div style="flex:1">
+              <div class="nm">Nourrissons &amp; enfants</div>
+              <div class="d">Cognition · motricité · vision · audition</div>
+            </div><span class="sev" style="color:var(--orange)">●●●○</span>
+          </div>
+          <div class="exrow">
+            <div class="th"><svg viewBox="0 0 24 24">
+                <path d="M12 3v18M5 8l7 4 7-4" />
+              </svg></div>
+            <div style="flex:1">
+              <div class="nm">Orpailleurs</div>
+              <div class="d">Vapeurs de mercure élémentaire · rein · système nerveux</div>
+            </div><span class="sev" style="color:var(--orange)">●●●○</span>
+          </div>
+          <div class="exrow">
+            <div class="th"><svg viewBox="0 0 24 24">
+                <path d="M4 14c3-6 13-6 16 0M8 14a4 4 0 0 0 8 0" />
+              </svg></div>
+            <div style="flex:1">
+              <div class="nm">Gros consommateurs de poisson</div>
+              <div class="d">Bioaccumulation du méthylmercure</div>
+            </div><span class="sev" style="color:var(--gold)">●●○○</span>
+          </div>
+        </div>
+      </div>
+      <div class="card flat">
+        <div class="kicker" style="color:var(--faint)">Mécanisme</div>
+        <p style="font-size:13px;color:var(--muted);margin:8px 0 0">Comment le mercure agit dans le corps — voies
+          moléculaires et organes cibles, appuyés sur la littérature toxicogénomique. Détail dans <button
+            class="linklike" data-screen="science"
+            style="background:none;border:none;color:var(--red);font:inherit;cursor:pointer;padding:0;text-decoration:underline">Science
+            ›</button></p>
+      </div>
+    </section>
+
+    <!-- ============ CONSÉQUENCES ============ -->
+    <section class="screen" id="s-consequences">
+      <div class="shead">
+        <div class="kicker">Conséquences par seuil</div>
+        <h2>Si le mercure atteint ce niveau</h2>
+        <div class="cap">Pour la zone active et son HQ, voici les conséquences plausibles — environnement et santé, par
+          groupe et par horizon. On répond à « et si… », pas à un diagnostic.</div>
+      </div>
+      <div class="card">
+        <div class="cq-head">
+          <span class="pill" id="cq_pill"><span class="dot"></span><span id="cq_pilltxt">—</span></span>
+          <div class="cq-scan mono">Zone <b id="cq_zone">—</b> · scénario poisson <b id="cq_conc">—</b> µg/kg · HQ <b
+              id="cq_hq">—</b></div>
+        </div>
+        <p class="cq-lead" id="cq_lead">—</p>
+      </div>
+      <div class="card">
+        <div class="shead" style="margin-bottom:6px">
+          <div class="kicker" style="color:var(--faint)">Environnement</div>
+          <h2 style="font-size:18px">Sur l'eau, les poissons, les sols</h2>
+        </div>
+        <ul class="cq-list" id="cq_env"></ul>
+      </div>
+      <div class="card">
+        <div class="shead" style="margin-bottom:6px">
+          <div class="kicker" style="color:var(--faint)">Santé — effets à surveiller</div>
+          <h2 style="font-size:18px">Par groupe de population</h2>
+        </div>
+        <div class="cq-groups" id="cq_health"></div>
+      </div>
+      <div class="card">
+        <div class="shead" style="margin-bottom:6px">
+          <div class="kicker" style="color:var(--faint)">Dans le temps</div>
+          <h2 style="font-size:18px">Horizons</h2>
+        </div>
+        <div class="cq-horizon" id="cq_horizon"></div>
+      </div>
+      <p class="fig">Effets à surveiller (OMS, littérature toxicologique) — jamais une maladie prédite pour une
+        personne.
+        Le contenu s'intensifie selon le HQ (seuil de danger).</p>
+    </section>
+
+    <!-- ============ PROJECTION ============ -->
+    <section class="screen" id="s-projection">
+      <div class="shead">
+        <div class="kicker">Projection · scénarios</div>
+        <h2>Si rien ne change</h2>
+      </div>
+      <div class="card">
+        <div class="tabs" id="scenTabs">
+          <button data-s="statuquo" aria-pressed="true">Statu quo</button>
+          <button data-s="reduc" aria-pressed="false">−30 %</button>
+          <button data-s="arret" aria-pressed="false">Arrêt</button>
+        </div>
+        <div id="projChart"></div>
+        <div class="projstats">
+          <div class="c">
+            <div class="n" id="p_now" style="color:var(--orange)">—</div>
+            <div class="l">HQ aujourd'hui</div>
+          </div>
+          <div class="c">
+            <div class="n" id="p_2034">—</div>
+            <div class="l">HQ projeté 2034</div>
+          </div>
+        </div>
+        <p class="fig" style="margin-top:12px">Projection prudente à partir de la zone active (<b id="p_zone">—</b>) —
+          pas une prédiction de maladie. La zone claire figure l'incertitude.</p>
+      </div>
+    </section>
+
+    <!-- ============ AGIR ============ -->
+    <section class="screen" id="s-agir">
+      <div class="shead">
+        <div class="kicker">Agir</div>
+        <h2>Ce qu'on peut faire</h2>
+      </div>
+      <div class="card">
+        <div class="hzblock">
+          <div class="hh" style="border-color:var(--red)">
+            <h3 style="color:var(--red)">Immédiat</h3><span class="when">0–3 mois</span>
+          </div>
+          <ul>
+            <li>Réduire la consommation des espèces à forte accumulation</li>
+            <li>Alerter les zones urgentes</li>
+            <li>Sécuriser l'eau de boisson</li>
+          </ul>
+        </div>
+        <div class="hzblock">
+          <div class="hh" style="border-color:var(--gold)">
+            <h3 style="color:var(--gold)">Moyen terme</h3><span class="when">3–18 mois</span>
+          </div>
+          <ul>
+            <li>Biosurveillance volontaire (cheveux / sang)</li>
+            <li>Suivi maternel &amp; neurodéveloppemental</li>
+            <li>Confirmation analytique des poissons et de l'eau</li>
+          </ul>
+        </div>
+        <div class="hzblock">
+          <div class="hh" style="border-color:var(--green)">
+            <h3 style="color:var(--green)">Long terme</h3><span class="when">18 mois +</span>
+          </div>
+          <ul>
+            <li>Surveillance des sédiments</li>
+            <li>Suivi de la bioaccumulation</li>
+            <li>Cohortes longitudinales</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SCIENCE ============ -->
+    <section class="screen" id="s-science">
+      <div class="shead">
+        <div class="kicker">Sous le capot</div>
+        <h2>La science du modèle</h2>
+        <div class="cap">Comment le HQ est calculé, avec quelles références, et la couche bioinformatique.</div>
+      </div>
+
+      <div class="subgrid">
+        <div class="card" style="align-self:start">
+          <div class="kicker" style="color:var(--faint)">Zone &amp; hypothèses</div>
+          <div style="margin:12px 0 6px;font-family:var(--mono);font-size:12px;color:var(--muted)">Zone active : <b
+              class="mono" id="sc_zone" style="color:var(--ink)">—</b></div>
+          <div class="field"><label>Portion de poisson <b id="v_portion">200 g</b></label><input type="range"
+              id="portion" min="30" max="400" step="10" value="200"></div>
+          <div class="field"><label>Repas / semaine <b id="v_meals">7</b></label><input type="range" id="meals" min="0"
+              max="14" step="1" value="7"></div>
+          <div class="field"><label>Poids corporel <b id="v_weight">60 kg</b></label><input type="range" id="weight"
+              min="8" max="90" step="1" value="60"></div>
+          <label class="filebtn" style="margin-top:6px">📄 Charger un CSV (mes valeurs)<input type="file" id="csv"
+              accept=".csv" hidden></label>
+          <p class="fig" style="margin-top:8px">Scénarios par défaut : 6 zones d'orpaillage (concentrations
+            hypothétiques, ajustables). Voir <span class="mono">sites.csv</span>.
+          </p>
+        </div>
+        <div>
+          <div class="card">
+            <div class="shead" style="margin-bottom:6px">
+              <h2 style="font-size:18px">Quotient de danger selon la référence</h2>
+              <div class="cap">Le seuil retenu change le verdict (méthylmercure).</div>
+            </div>
+            <div class="refnote">
+              <b>JECFA</b> — comité mixte FAO/OMS : 1,6 µg/kg/<b>semaine</b> ≈ 0,229/jour<br>
+              <b>EFSA</b> — Autorité européenne de sécurité des aliments : 1,3 µg/kg/<b>semaine</b> ≈ 0,186/jour<br>
+              <b>US EPA</b> — Agence américaine de protection de l'environnement : 0,1 µg/kg/<b>jour</b>
+            </div>
+            <div id="bars"></div>
+          </div>
+          <div class="card">
+            <div class="shead" style="margin-bottom:6px">
+              <h2 style="font-size:18px">Deux voies, deux références</h2>
+              <div class="cap">Formes chimiques distinctes — jamais additionnées.</div>
+            </div>
+            <div class="doses">
+              <div class="dosebox">
+                <div class="t">Poisson · méthylmercure</div>
+                <div class="d mono" id="d_fish" style="color:var(--red)">—</div>
+                <div class="sub">µg/kg/j — vs JECFA 0,229</div>
+              </div>
+              <div class="dosebox">
+                <div class="t">Eau · mercure inorganique</div>
+                <div class="d mono" id="d_water">—</div>
+                <div class="sub">µg/kg/j — vs JECFA inorg. 0,571</div>
+              </div>
+            </div>
+            <div class="refnote" style="margin:14px 0 0">Dose = <b>concentration × portion × (repas/sem ÷ 7) ÷
+                poids</b>.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="shead" style="margin-bottom:6px">
+          <h2 style="font-size:18px">Carte mécanistique — voies plausibles</h2>
+          <div class="cap">Polluant → mécanismes → organes. Hypothèses de la littérature (CTD, Reactome, GO), non un
+            test.</div>
+        </div>
+        <div class="mech">
+          <svg viewBox="0 0 760 250" role="img" aria-label="Mercure vers voies biologiques vers organes">
+            <defs>
+              <marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3.2" orient="auto">
+                <path d="M0 0L7 3.2L0 6.4z" fill="var(--faintest)" />
+              </marker>
+            </defs>
+            <g stroke="var(--faintest)" stroke-width="1.3" fill="none" marker-end="url(#ar)" opacity=".7">
+              <path d="M150 125 C205 55 235 50 288 50" />
+              <path d="M150 125 C205 105 235 105 288 105" />
+              <path d="M150 125 C205 150 235 155 288 160" />
+              <path d="M150 125 C205 205 235 210 288 213" />
+              <path d="M470 50 C525 65 545 105 588 113" />
+              <path d="M470 105 C525 110 545 113 588 117" />
+              <path d="M470 160 C525 145 545 125 588 123" />
+              <path d="M470 213 C525 205 545 185 588 177" />
+            </g>
+            <g font-family="IBM Plex Mono, monospace" font-size="11.5">
+              <rect x="42" y="103" width="108" height="44" rx="9" fill="var(--red)" /><text x="96" y="121"
+                text-anchor="middle" fill="#fff" font-weight="600">Hg / MeHg</text><text x="96" y="136"
+                text-anchor="middle" fill="#ffffffcc" font-size="9.5">exposition</text>
+              <g fill="var(--card-2)" stroke="var(--line-2)">
+                <rect x="288" y="33" width="182" height="34" rx="8" />
+                <rect x="288" y="88" width="182" height="34" rx="8" />
+                <rect x="288" y="143" width="182" height="34" rx="8" />
+                <rect x="288" y="196" width="182" height="34" rx="8" />
+              </g>
+              <g fill="var(--ink)" text-anchor="middle"><text x="379" y="54">Stress oxydatif (ROS)</text><text x="379"
+                  y="109">Liaison thiols · glutathion ↓</text><text x="379" y="164">Dysfonction
+                  mitochondriale</text><text x="379" y="217">Neuro-inflammation · apoptose</text></g>
+              <g fill="var(--red-bg)" stroke="var(--red)">
+                <rect x="588" y="53" width="150" height="34" rx="8" />
+                <rect x="588" y="105" width="150" height="34" rx="8" />
+                <rect x="588" y="160" width="150" height="34" rx="8" />
+              </g>
+              <g fill="var(--red)" text-anchor="middle" font-weight="600"><text x="663" y="74">Cerveau ·
+                  neurodév.</text><text x="663" y="126">Rein</text><text x="663" y="181">Système immunitaire</text></g>
+            </g>
+          </svg>
+        </div>
+        <p class="fig" style="margin-top:8px"><b>ROS</b> = espèces réactives de l'oxygène (radicaux qui abîment les
+          cellules).</p>
+      </div>
+
+      <div class="card">
+        <div class="kicker">Module 2 · Bioinformatique</div>
+        <h2 style="font-size:22px;margin:6px 0 8px">Toxicogénomique du mercure</h2>
+        <p style="font-size:13px;color:var(--muted);margin:0">Gènes et protéines ciblés, voies enrichies, réseau
+          d'interactions. Sous-ensemble <b>curé de la littérature</b> (type Comparative Toxicogenomics Database) — pas
+          une requête en direct. En production : API CTD + STRING.</p>
+      </div>
+      <div class="card">
+        <div class="shead" style="margin-bottom:6px">
+          <h2 style="font-size:18px">Voies biologiques enrichies</h2>
+          <div class="cap">Nombre de gènes associés au mercure par voie.</div>
+        </div>
+        <div class="enr" id="enrBars"></div>
+      </div>
+      <div class="card">
+        <div class="shead" style="margin-bottom:6px">
+          <h2 style="font-size:18px">Gènes &amp; protéines associés</h2>
+          <div class="cap">Filtre par voie.</div>
+        </div>
+        <div class="chips" id="geneChips"></div>
+        <div class="genewrap">
+          <table class="genes">
+            <thead>
+              <tr>
+                <th>Gène</th>
+                <th>Protéine / rôle</th>
+                <th>Interaction</th>
+                <th>Voie</th>
+                <th>Preuve</th>
+              </tr>
+            </thead>
+            <tbody id="geneBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="shead" style="margin-bottom:6px">
+          <h2 style="font-size:18px">Réseau d'interactions protéine–protéine</h2>
+          <div class="cap">Nœud = gène (taille ∝ connexions) · couleur = voie · survole un nœud.</div>
+        </div>
+        <div class="net"><svg id="netSvg" viewBox="0 0 720 440" role="img"
+            aria-label="Réseau d'interactions des gènes du mercure"></svg></div>
+        <div class="nettip" id="netTip">Hubs : <b>NFE2L2 (NRF2)</b>, TP53, IL6, NFKB1, HMOX1 — cibles convergentes.
+        </div>
+      </div>
+      <div class="card">
+        <div class="shead" style="margin-bottom:6px">
+          <h2 style="font-size:18px">Abréviations</h2>
+        </div>
+        <dl class="gloss">
+          <div>
+            <dt>HQ</dt>
+            <dd>Quotient de danger — dose ÷ dose de référence. Au-dessus de 1, dépassement.</dd>
+          </div>
+          <div>
+            <dt>Hg / MeHg</dt>
+            <dd>Mercure / méthylmercure (forme toxique qui s'accumule dans le poisson).</dd>
+          </div>
+          <div>
+            <dt>ROS</dt>
+            <dd>Espèces réactives de l'oxygène (stress oxydatif).</dd>
+          </div>
+          <div>
+            <dt>JECFA</dt>
+            <dd>Comité mixte FAO/OMS d'experts des additifs alimentaires.</dd>
+          </div>
+          <div>
+            <dt>EFSA</dt>
+            <dd>Autorité européenne de sécurité des aliments.</dd>
+          </div>
+          <div>
+            <dt>US EPA</dt>
+            <dd>Agence américaine de protection de l'environnement.</dd>
+          </div>
+          <div>
+            <dt>CTD / STRING</dt>
+            <dd>Bases de données chimie-gènes et interactions protéiques.</dd>
+          </div>
+          <div>
+            <dt>µg/kg</dt>
+            <dd>Microgramme par kilogramme (millionième de gramme par kilo).</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <footer class="foot">
+      MercuriScan · simulateur de scénarios — surveillance environnementale.<br>
+      Références : JECFA 1,6 µg/kg/sem · EFSA 1,3 µg/kg/sem · US EPA 0,1 µg/kg/j (méthylmercure). Tracé Natural Earth ·
+      fond OpenStreetMap. Concentrations hypothétiques ; seuils, effets et coordonnées réels.
+    </footer>
+  </main>
+
+  <nav class="botnav" id="botnav" aria-label="Navigation">
+    <button data-screen="une" aria-current="true"><svg viewBox="0 0 24 24">
+        <path d="M4 5h16M4 10h10M4 15h16M4 20h7" />
+      </svg>Une</button>
+    <button data-screen="carte"><svg viewBox="0 0 24 24">
+        <path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14" />
+      </svg>Carte</button>
+    <button data-screen="exposes"><svg viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="3.5" />
+        <path d="M5 20c0-4 3-6 7-6s7 2 7 6" />
+      </svg>Exposés</button>
+    <button data-screen="consequences"><svg viewBox="0 0 24 24">
+        <path d="M12 3 2 20h20L12 3zM12 10v4M12 17v.5" />
+      </svg>Impact</button>
+    <button data-screen="projection"><svg viewBox="0 0 24 24">
+        <path d="M4 19V5M4 19h16M4 15l5-4 4 3 6-6" />
+      </svg>Projection</button>
+    <button data-screen="agir"><svg viewBox="0 0 24 24">
+        <path d="M12 3v18M5 10l7-7 7 7" />
+      </svg>Agir</button>
+    <button data-screen="science"><svg viewBox="0 0 24 24">
+        <path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3" />
+      </svg>Science</button>
+  </nav>
+
+  <script src="vendor/leaflet.js"></script>
+  <script src="data/geo.js"></script>
+  <script src="data/tox.js"></script>
+  <script src="data/sites.js"></script>
+  <script src="app.js"></script>
+  <script>
+    /* PWA : service worker + bouton d'installation */
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () { }); });
+    }
+    (function () {
+      var deferred = null, btn = document.getElementById("installBtn");
+      window.addEventListener("beforeinstallprompt", function (e) {
+        e.preventDefault(); deferred = e; if (btn) btn.style.display = "inline-flex";
+      });
+      if (btn) btn.addEventListener("click", function () {
+        if (!deferred) return;
+        deferred.prompt();
+        deferred.userChoice.finally(function () { deferred = null; btn.style.display = "none"; });
+      });
+      window.addEventListener("appinstalled", function () { if (btn) btn.style.display = "none"; });
+    })();
+  </script>
+</body>
+
+</html>
