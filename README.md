@@ -1,7 +1,11 @@
-# MercuriScan — prototype
+# GenDefense-SURVEN 
 
-Risque sanitaire lié au mercure de l'orpaillage clandestin (Côte d'Ivoire).
-Toxicologie computationnelle (dose, quotient de danger, carte) + toxicogénomique (gènes, voies, réseau).
+GenDefense est programme axée sur la surveillance biologique de la Côte d'Ivoire. 
+
+Face à l'orpaillage clandestin, nous avons développé GenDefebnse-SURVEN dont le but est de prévenir le risque sanitaire lié au mercure de l'orpaillage clandestin en Côte d'Ivoire.
+C'est une application web qui permet de visualiser les zones d'orpaillage clandestin et les risques sanitaires liés à l'utilisation du mercure dans l'orpaillage clandestin.
+
+# Toxicologie computationnelle (dose, quotient de danger, carte) + toxicogénomique (gènes, voies, réseau).
 
 ## Lancer en local
 
@@ -76,3 +80,9 @@ Colonnes du CSV :
 - Références : JECFA 1,6 µg/kg/sem · EFSA 1,3 µg/kg/sem · US EPA 0,1 µg/kg/j.
 - Module 2 : sous-ensemble curé de la littérature (type CTD). En production : brancher les API CTD + STRING.
 - Valeurs d'exposition des sites : à confirmer sur le terrain.
+
+## Licence
+
+**By © The Day Info, tous droits réservés.**
+Voir [LICENSE](LICENSE).
+Contact : armelyara@thedayinfo.com
