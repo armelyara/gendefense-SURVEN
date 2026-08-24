@@ -96,7 +96,7 @@
   /* selection */
   function selectSite(i) { sel = i; renderAll(); }
 
-  /*  Home Page */
+  /*  Investigation */
   function renderUne() {
     var s = SITES[sel], hq = hqJ(s), t = tier(hq), col = cget(t.v);
     $("u_hq").textContent = fmt(hq, 1) + "×"; $("u_hq").style.color = col;
