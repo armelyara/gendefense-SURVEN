@@ -44,7 +44,35 @@
 
   <main class="wrap">
 
-    <!-- Home -->
+    <!-- Map -->
+    <section class="screen" id="s-carte">
+      <div class="shead">
+        <div class="kicker">La carte</div>
+        <h2>Où le danger se concentre</h2>
+        <div class="cap">Fond OpenStreetMap réel · taille du point ∝ population · couleur = niveau de HQ. Touche un
+          point ou une ligne.</div>
+      </div>
+      <div class="card">
+        <div id="map"></div>
+        <div class="maplegend">
+          <span><i style="background:var(--green)"></i>Faible</span>
+          <span><i style="background:var(--gold)"></i>Modéré</span>
+          <span><i style="background:var(--orange)"></i>Élevé</span>
+          <span><i style="background:var(--red)"></i>Urgent</span>
+          <span style="margin-left:auto">Point ∝ population</span>
+        </div>
+        <p class="fig" style="margin-top:10px">Fig. 1 — Zones prioritaires. Coordonnées réelles ; concentrations =
+          scénarios ajustables, pas des mesures.</p>
+      </div>
+      <div class="card">
+        <div class="shead" style="margin-bottom:8px">
+          <h2 style="font-size:18px">Zones classées par risque</h2>
+        </div>
+        <div class="zlist" id="zlist"></div>
+      </div>
+    </section>
+
+    <!-- Investigation -->
     <section class="screen active" id="s-une">
       <div class="hero-grid">
         <div>
@@ -117,33 +145,7 @@
       </div>
     </section>
 
-    <!-- Map -->
-    <section class="screen" id="s-carte">
-      <div class="shead">
-        <div class="kicker">La carte</div>
-        <h2>Où le danger se concentre</h2>
-        <div class="cap">Fond OpenStreetMap réel · taille du point ∝ population · couleur = niveau de HQ. Touche un
-          point ou une ligne.</div>
-      </div>
-      <div class="card">
-        <div id="map"></div>
-        <div class="maplegend">
-          <span><i style="background:var(--green)"></i>Faible</span>
-          <span><i style="background:var(--gold)"></i>Modéré</span>
-          <span><i style="background:var(--orange)"></i>Élevé</span>
-          <span><i style="background:var(--red)"></i>Urgent</span>
-          <span style="margin-left:auto">Point ∝ population</span>
-        </div>
-        <p class="fig" style="margin-top:10px">Fig. 1 — Zones prioritaires. Coordonnées réelles ; concentrations =
-          scénarios ajustables, pas des mesures.</p>
-      </div>
-      <div class="card">
-        <div class="shead" style="margin-bottom:8px">
-          <h2 style="font-size:18px">Zones classées par risque</h2>
-        </div>
-        <div class="zlist" id="zlist"></div>
-      </div>
-    </section>
+
 
     <!-- Exposed -->
     <section class="screen" id="s-exposes">
