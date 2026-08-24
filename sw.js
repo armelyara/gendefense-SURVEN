@@ -1,5 +1,5 @@
-/* MercuriScan — service worker (offline app shell) */
-var CACHE = "mercuriscan-2026-08-24";   // build id — changer à chaque déploiement
+/* GenDefense-SURVEN — service worker (offline app shell) */
+var CACHE = "gends-surven-2026-08-24";
 var ASSETS = [
   "./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest",
   "./data/sites.js", "./data/geo.js", "./data/tox.js",
@@ -7,36 +7,34 @@ var ASSETS = [
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png"
 ];
 
-self.addEventListener("install", function(e){
-  e.waitUntil(caches.open(CACHE).then(function(c){ return c.addAll(ASSETS); }).then(function(){ return self.skipWaiting(); }));
+self.addEventListener("install", function (e) {
+  e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(ASSETS); }).then(function () { return self.skipWaiting(); }));
 });
 
-self.addEventListener("activate", function(e){
+self.addEventListener("activate", function (e) {
   e.waitUntil(
-    caches.keys().then(function(keys){
-      return Promise.all(keys.filter(function(k){ return k!==CACHE; }).map(function(k){ return caches.delete(k); }));
-    }).then(function(){ return self.clients.claim(); })
+    caches.keys().then(function (keys) {
+      return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
+    }).then(function () { return self.clients.claim(); })
   );
 });
 
-self.addEventListener("fetch", function(e){
-  if(e.request.method!=="GET") return;
+self.addEventListener("fetch", function (e) {
+  if (e.request.method !== "GET") return;
   var url = new URL(e.request.url);
-  // Ressources externes (tuiles OSM, polices Google) : réseau d'abord, cache en secours
-  if(url.origin !== location.origin){
-    e.respondWith(fetch(e.request).then(function(resp){
+  if (url.origin !== location.origin) {
+    e.respondWith(fetch(e.request).then(function (resp) {
       var copy = resp.clone();
-      caches.open(CACHE).then(function(c){ try{ c.put(e.request, copy); }catch(_){} });
+      caches.open(CACHE).then(function (c) { try { c.put(e.request, copy); } catch (_) { } });
       return resp;
-    }).catch(function(){ return caches.match(e.request); }));
+    }).catch(function () { return caches.match(e.request); }));
     return;
   }
-  // Coquille de l'app : cache d'abord
-  e.respondWith(caches.match(e.request).then(function(r){
-    return r || fetch(e.request).then(function(resp){
+  e.respondWith(caches.match(e.request).then(function (r) {
+    return r || fetch(e.request).then(function (resp) {
       var copy = resp.clone();
-      caches.open(CACHE).then(function(c){ c.put(e.request, copy); });
+      caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
       return resp;
-    }).catch(function(){ return caches.match("./index.html"); });
+    }).catch(function () { return caches.match("./index.html"); });
   }));
 });
