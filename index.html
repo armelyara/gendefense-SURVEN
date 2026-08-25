@@ -314,24 +314,71 @@
             <div class="cap">Du polluant aux organes — mécanismes plausibles (littérature CTD, Reactome, GO), pas un
               test.</div>
           </div>
-          <div class="mechflow">
-            <div class="mf-col mf-src">
-              <div class="mf-lab">Source</div>
-              <div class="mf-node src">Hg / MeHg<small>exposition</small></div>
-            </div>
-            <div class="mf-col">
-              <div class="mf-lab">Mécanismes cellulaires</div>
-              <div class="mf-node">Stress oxydatif (ROS)</div>
-              <div class="mf-node">Liaison aux thiols · glutathion ↓</div>
-              <div class="mf-node">Dysfonction mitochondriale</div>
-              <div class="mf-node">Neuro-inflammation · apoptose</div>
-            </div>
-            <div class="mf-col">
-              <div class="mf-lab">Organes touchés</div>
-              <div class="mf-node organ">Cerveau · neurodéveloppement</div>
-              <div class="mf-node organ">Rein</div>
-              <div class="mf-node organ">Système immunitaire</div>
-            </div>
+          <div class="mech">
+            <svg viewBox="0 0 760 300" role="img" aria-label="Du mercure aux organes — mécanismes">
+              <defs>
+                <marker id="ar" markerWidth="8" markerHeight="8" refX="6.5" refY="3.4" orient="auto">
+                  <path d="M0 0L8 3.4L0 6.8z" fill="var(--faintest)" />
+                </marker>
+              </defs>
+              <!-- labels de colonnes -->
+              <g font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--faint)" text-anchor="middle"
+                letter-spacing="1">
+                <text x="84" y="12">SOURCE</text>
+                <text x="385" y="12">MÉCANISMES CELLULAIRES</text>
+                <text x="675" y="12">ORGANES TOUCHÉS</text>
+              </g>
+              <!-- flèches source -> mécanismes -->
+              <g stroke="var(--faintest)" stroke-width="1.4" fill="none" marker-end="url(#ar)" opacity=".65">
+                <path d="M150 150 C198 150 206 41 246 41" />
+                <path d="M150 150 C198 150 206 101 246 101" />
+                <path d="M150 150 C198 150 206 161 246 161" />
+                <path d="M150 150 C198 150 206 221 246 221" />
+              </g>
+              <!-- flèches mécanismes -> organes -->
+              <g stroke="var(--faintest)" stroke-width="1.3" fill="none" marker-end="url(#ar)" opacity=".5">
+                <path d="M520 41 C560 41 566 63 596 63" />
+                <path d="M520 101 C560 101 566 151 596 151" />
+                <path d="M520 161 C562 161 566 70 596 70" />
+                <path d="M520 161 C562 161 566 158 596 158" />
+                <path d="M520 221 C560 221 566 239 596 239" />
+              </g>
+              <!-- source -->
+              <rect x="18" y="126" width="132" height="48" rx="10" fill="var(--red)" />
+              <text x="84" y="147" text-anchor="middle" fill="#fff" font-family="IBM Plex Mono, monospace"
+                font-size="13" font-weight="600">Hg / MeHg</text>
+              <text x="84" y="162" text-anchor="middle" fill="#ffffffcc" font-family="IBM Plex Mono, monospace"
+                font-size="9.5">exposition</text>
+              <!-- mécanismes -->
+              <g fill="var(--card-2)" stroke="var(--line-2)">
+                <rect x="250" y="18" width="270" height="46" rx="9" />
+                <rect x="250" y="78" width="270" height="46" rx="9" />
+                <rect x="250" y="138" width="270" height="46" rx="9" />
+                <rect x="250" y="198" width="270" height="46" rx="9" />
+              </g>
+              <g fill="var(--ink)" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5">
+                <text x="385" y="45">Stress oxydatif (ROS)</text>
+                <text x="385" y="97">Liaison aux thiols</text>
+                <text x="385" y="112">glutathion ↓</text>
+                <text x="385" y="165">Dysfonction mitochondriale</text>
+                <text x="385" y="217">Neuro-inflammation</text>
+                <text x="385" y="232">· apoptose</text>
+              </g>
+              <!-- organes -->
+              <g fill="var(--red-bg)" stroke="var(--red)">
+                <rect x="596" y="40" width="150" height="46" rx="9" />
+                <rect x="596" y="128" width="150" height="46" rx="9" />
+                <rect x="596" y="216" width="150" height="46" rx="9" />
+              </g>
+              <g fill="var(--red)" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5"
+                font-weight="600">
+                <text x="671" y="60">Cerveau ·</text>
+                <text x="671" y="74">neurodéveloppement</text>
+                <text x="671" y="156">Rein</text>
+                <text x="671" y="236">Système</text>
+                <text x="671" y="250">immunitaire</text>
+              </g>
+            </svg>
           </div>
           <p class="fig" style="margin-top:12px"><b>ROS</b> = espèces réactives de l'oxygène (radicaux qui abîment les
             cellules).</p>
