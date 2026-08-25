@@ -1,4 +1,4 @@
-/* GenDefense-SURVEN — logique applicative */
+/* GenDefense-SURVEN — application logic */
 (function () {
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
@@ -301,7 +301,7 @@
     });
   }
 
-  /*  consequences par seuil  */
+  /* consequences per threshold */
   var CQ = {
     faible: {
       lead: "Sous le seuil de référence : risque faible aux hypothèses actuelles. L'orpaillage en amont impose toutefois une vigilance.",
@@ -370,22 +370,30 @@
     }).join("");
   }
 
-  /*  exposés (dynamique selon la zone)  */
+  /* exposed */
   var BAND_BASE = { faible: 1, modere: 2, eleve: 3, urgent: 4 };
   var EXGROUPS = [
-    { key: "enceintes", nom: "Femmes enceintes & fœtus", d: "Neurodéveloppement · transfert placentaire", bonus: 1,
-      icon: '<circle cx="12" cy="7" r="3.2"/><path d="M12 10.5c-1 3-1 6 0 10"/>' },
-    { key: "enfants", nom: "Nourrissons & enfants", d: "Cognition · motricité · vision · audition", bonus: 0,
-      icon: '<circle cx="12" cy="8" r="3"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/>' },
-    { key: "orpailleurs", nom: "Orpailleurs", d: "Vapeurs de mercure élémentaire · rein · système nerveux", bonus: 0,
-      icon: '<path d="M12 3v18M5 8l7 4 7-4"/>' },
-    { key: "consommateurs", nom: "Gros consommateurs de poisson", d: "Bioaccumulation du méthylmercure", bonus: -1,
-      icon: '<path d="M4 14c3-6 13-6 16 0M8 14a4 4 0 0 0 8 0"/>' }
+    {
+      key: "enceintes", nom: "Femmes enceintes & fœtus", d: "Neurodéveloppement · transfert placentaire", bonus: 1,
+      icon: '<circle cx="12" cy="7" r="3.2"/><path d="M12 10.5c-1 3-1 6 0 10"/>'
+    },
+    {
+      key: "enfants", nom: "Nourrissons & enfants", d: "Cognition · motricité · vision · audition", bonus: 0,
+      icon: '<circle cx="12" cy="8" r="3"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/>'
+    },
+    {
+      key: "orpailleurs", nom: "Orpailleurs", d: "Vapeurs de mercure élémentaire · rein · système nerveux", bonus: 0,
+      icon: '<path d="M12 3v18M5 8l7 4 7-4"/>'
+    },
+    {
+      key: "consommateurs", nom: "Gros consommateurs de poisson", d: "Bioaccumulation du méthylmercure", bonus: -1,
+      icon: '<path d="M4 14c3-6 13-6 16 0M8 14a4 4 0 0 0 8 0"/>'
+    }
   ];
   function dotsHTML(n, col) {
     n = Math.max(1, Math.min(4, n));
     return '<span style="color:' + col + '">' + Array(n + 1).join("●") + '</span>' +
-           '<span style="color:var(--line-2)">' + Array(4 - n + 1).join("○") + '</span>';
+      '<span style="color:var(--line-2)">' + Array(4 - n + 1).join("○") + '</span>';
   }
   function renderExposes() {
     var box = $("exlist"); if (!box) return;
@@ -401,7 +409,7 @@
     }).join("");
   }
 
-  /*  agir (dynamique selon la zone)  */
+  /* Take action */
   var AGIR = {
     faible: {
       immediat: ["Informer la population locale", "Surveiller la couleur et la turbidité de l'eau"],
