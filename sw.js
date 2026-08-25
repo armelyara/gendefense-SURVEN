@@ -1,4 +1,4 @@
-/* GenDefense-SURVEN — service worker (offline app shell) */
+/* GenDefense-SURVEN — service worker æ*/
 var CACHE = "gends-surven-2026-08-24";
 var ASSETS = [
   "./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest",

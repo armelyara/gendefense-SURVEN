@@ -286,38 +286,6 @@
     }
   }
 
-  /* CSV import 
-  function parseCSV(text) {
-    var lines = text.replace(/\r/g, "").split("\n").filter(function (l) { return l.trim(); });
-    if (!lines.length) return [];
-    var head = lines[0].split(",").map(function (h) { return h.trim(); });
-    var idx = {}; head.forEach(function (h, i) { idx[h] = i; });
-    var num = function (v) { var x = parseFloat(v); return isNaN(x) ? null : x; };
-    return lines.slice(1).map(function (l) {
-      var c = l.split(",");
-      return {
-        nom: c[idx.nom_site] || "?", lat: num(c[idx.latitude]), lon: num(c[idx.longitude]),
-        hgFish: num(c[idx.hg_poisson_ugkg]), hgWater: num(c[idx.hg_eau_ugL]),
-        pop: parseInt(c[idx.population] || "0", 10) || 0, pctPreg: num(c[idx.pct_enceintes]),
-        pctChild: num(c[idx.pct_enfants]), distKm: num(c[idx.distance_orpaillage_km])
-      };
-    }).filter(function (s) { return s.lat != null && s.lon != null; });
-  }
-  function initCSV() {
-    var inp = $("csv"); if (!inp) return;
-    inp.addEventListener("change", function () {
-      var f = inp.files[0]; if (!f) return;
-      var rd = new FileReader();
-      rd.onload = function () {
-        try {
-          var rows = parseCSV(rd.result);
-          if (rows.length) { SITES = rows; sel = 0; if (mapInited && LMAP) { drawMarkers(); LMAP.setView([SITES[0].lat, SITES[0].lon], 6); } renderAll(); }
-        } catch (e) { alert("CSV illisible : " + e.message); }
-      };
-      rd.readAsText(f);
-    });
-  }*/
-
   /*  assumptions  */
   function initControls() {
     ["portion", "meals", "weight"].forEach(function (id) {
