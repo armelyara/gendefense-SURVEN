@@ -408,8 +408,21 @@
     if (mapInited) drawMarkers();
   }
 
+  /*  science sub-tabs  */
+  document.querySelectorAll("#sciTabs button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var key = b.dataset.sci;
+      document.querySelectorAll("#sciTabs button").forEach(function (x) {
+        x.setAttribute("aria-pressed", x === b ? "true" : "false");
+      });
+      document.getElementById("sciTab-meca").style.display = key === "meca" ? "" : "none";
+      document.getElementById("sciTab-bio").style.display = key === "bio" ? "" : "none";
+    });
+  });
+
   /*  init  */
   buildChips(); syncChips(); renderGenes(); renderEnrich(); buildNet();
   initControls();
+  ensureMap();
   renderAll();
 })();

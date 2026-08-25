@@ -27,8 +27,8 @@
   <header class="topbar">
     <div class="brand"><span class="drop"></span>GenDefense - SURVEN</div>
     <nav class="topnav" id="topnav" aria-label="Navigation principale">
-      <button data-screen="carte">Carte</button>
-      <button data-screen="une" aria-current="true">L'enquête</button>
+      <button data-screen="carte" aria-current="true">Carte</button>
+      <button data-screen="une">L'enquête</button>
       <button data-screen="exposes">Exposés</button>
       <button data-screen="consequences">Conséquences</button>
       <button data-screen="projection">Projection</button>
@@ -44,7 +44,7 @@
   <main class="wrap">
 
     <!-- Map -->
-    <section class="screen" id="s-carte">
+    <section class="screen active" id="s-carte">
       <div class="shead">
         <div class="kicker">La carte</div>
         <h2>Où le danger se concentre</h2>
@@ -72,7 +72,7 @@
     </section>
 
     <!-- Investigation -->
-    <section class="screen active" id="s-une">
+    <section class="screen" id="s-une">
       <div class="hero-grid">
         <div>
           <div class="kicker">Côte d'Ivoire ·Risque sanitaire lié au mercure de l'orpaillage clandestin</div>
@@ -150,8 +150,7 @@
         <div class="kicker">Les plus exposés</div>
         <h2>Qui est en première ligne</h2>
       </div>
-      <p class="fig" style="margin:-4px 0 14px">Des effets à surveiller pour ces groupes — jamais une maladie prédite
-        pour quelqu'un.</p>
+      <p class="fig" style="margin:-4px 0 14px">Des effets à surveiller pour ces groupes</p>
       <div class="card">
         <div class="exlist">
           <div class="exrow">
@@ -204,7 +203,7 @@
       </div>
     </section>
 
-    <!-- Consequences  -->
+    <!-- Consequences -->
     <section class="screen" id="s-consequences">
       <div class="shead">
         <div class="kicker">Conséquences par seuil</div>
@@ -375,99 +374,110 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="shead" style="margin-bottom:6px">
-          <h2 style="font-size:18px">Carte mécanistique — voies plausibles</h2>
-          <div class="cap">Polluant → mécanismes → organes. Hypothèses de la littérature (CTD, Reactome, GO), non un
-            test.</div>
-        </div>
-        <div class="mech">
-          <svg viewBox="0 0 760 250" role="img" aria-label="Mercure vers voies biologiques vers organes">
-            <defs>
-              <marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3.2" orient="auto">
-                <path d="M0 0L7 3.2L0 6.4z" fill="var(--faintest)" />
-              </marker>
-            </defs>
-            <g stroke="var(--faintest)" stroke-width="1.3" fill="none" marker-end="url(#ar)" opacity=".7">
-              <path d="M150 125 C205 55 235 50 288 50" />
-              <path d="M150 125 C205 105 235 105 288 105" />
-              <path d="M150 125 C205 150 235 155 288 160" />
-              <path d="M150 125 C205 205 235 210 288 213" />
-              <path d="M470 50 C525 65 545 105 588 113" />
-              <path d="M470 105 C525 110 545 113 588 117" />
-              <path d="M470 160 C525 145 545 125 588 123" />
-              <path d="M470 213 C525 205 545 185 588 177" />
-            </g>
-            <g font-family="IBM Plex Mono, monospace" font-size="11.5">
-              <rect x="42" y="103" width="108" height="44" rx="9" fill="var(--red)" /><text x="96" y="121"
-                text-anchor="middle" fill="#fff" font-weight="600">Hg / MeHg</text><text x="96" y="136"
-                text-anchor="middle" fill="#ffffffcc" font-size="9.5">exposition</text>
-              <g fill="var(--card-2)" stroke="var(--line-2)">
-                <rect x="288" y="33" width="182" height="34" rx="8" />
-                <rect x="288" y="88" width="182" height="34" rx="8" />
-                <rect x="288" y="143" width="182" height="34" rx="8" />
-                <rect x="288" y="196" width="182" height="34" rx="8" />
-              </g>
-              <g fill="var(--ink)" text-anchor="middle"><text x="379" y="54">Stress oxydatif (ROS)</text><text x="379"
-                  y="109">Liaison thiols · glutathion ↓</text><text x="379" y="164">Dysfonction
-                  mitochondriale</text><text x="379" y="217">Neuro-inflammation · apoptose</text></g>
-              <g fill="var(--red-bg)" stroke="var(--red)">
-                <rect x="588" y="53" width="150" height="34" rx="8" />
-                <rect x="588" y="105" width="150" height="34" rx="8" />
-                <rect x="588" y="160" width="150" height="34" rx="8" />
-              </g>
-              <g fill="var(--red)" text-anchor="middle" font-weight="600"><text x="663" y="74">Cerveau ·
-                  neurodév.</text><text x="663" y="126">Rein</text><text x="663" y="181">Système immunitaire</text></g>
-            </g>
-          </svg>
-        </div>
-        <p class="fig" style="margin-top:8px"><b>ROS</b> = espèces réactives de l'oxygène (radicaux qui abîment les
-          cellules).</p>
+      <div class="tabs" id="sciTabs">
+        <button type="button" data-sci="meca" aria-pressed="true">Carte mécanistique</button>
+        <button type="button" data-sci="bio" aria-pressed="false">Module 2 · Bioinformatique</button>
       </div>
 
-      <div class="card">
-        <div class="kicker">Module 2 · Bioinformatique</div>
-        <h2 style="font-size:22px;margin:6px 0 8px">Toxicogénomique du mercure</h2>
-        <p style="font-size:13px;color:var(--muted);margin:0">Gènes et protéines ciblés, voies enrichies, réseau
-          d'interactions. Sous-ensemble <b>curé de la littérature</b> (type Comparative Toxicogenomics Database) — pas
-          une requête en direct. En production : API CTD + STRING.</p>
+      <!-- Tab 1: Carte mécanistique -->
+      <div id="sciTab-meca">
+        <div class="card">
+          <div class="shead" style="margin-bottom:6px">
+            <h2 style="font-size:18px">Carte mécanistique — voies plausibles</h2>
+            <div class="cap">Polluant → mécanismes → organes. Hypothèses de la littérature (CTD, Reactome, GO), non un
+              test.</div>
+          </div>
+          <div class="mech">
+            <svg viewBox="0 0 760 250" role="img" aria-label="Mercure vers voies biologiques vers organes">
+              <defs>
+                <marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3.2" orient="auto">
+                  <path d="M0 0L7 3.2L0 6.4z" fill="var(--faintest)" />
+                </marker>
+              </defs>
+              <g stroke="var(--faintest)" stroke-width="1.3" fill="none" marker-end="url(#ar)" opacity=".7">
+                <path d="M150 125 C205 55 235 50 288 50" />
+                <path d="M150 125 C205 105 235 105 288 105" />
+                <path d="M150 125 C205 150 235 155 288 160" />
+                <path d="M150 125 C205 205 235 210 288 213" />
+                <path d="M470 50 C525 65 545 105 588 113" />
+                <path d="M470 105 C525 110 545 113 588 117" />
+                <path d="M470 160 C525 145 545 125 588 123" />
+                <path d="M470 213 C525 205 545 185 588 177" />
+              </g>
+              <g font-family="IBM Plex Mono, monospace" font-size="11.5">
+                <rect x="42" y="103" width="108" height="44" rx="9" fill="var(--red)" /><text x="96" y="121"
+                  text-anchor="middle" fill="#fff" font-weight="600">Hg / MeHg</text><text x="96" y="136"
+                  text-anchor="middle" fill="#ffffffcc" font-size="9.5">exposition</text>
+                <g fill="var(--card-2)" stroke="var(--line-2)">
+                  <rect x="288" y="33" width="182" height="34" rx="8" />
+                  <rect x="288" y="88" width="182" height="34" rx="8" />
+                  <rect x="288" y="143" width="182" height="34" rx="8" />
+                  <rect x="288" y="196" width="182" height="34" rx="8" />
+                </g>
+                <g fill="var(--ink)" text-anchor="middle"><text x="379" y="54">Stress oxydatif (ROS)</text><text x="379"
+                    y="109">Liaison thiols · glutathion ↓</text><text x="379" y="164">Dysfonction
+                    mitochondriale</text><text x="379" y="217">Neuro-inflammation · apoptose</text></g>
+                <g fill="var(--red-bg)" stroke="var(--red)">
+                  <rect x="588" y="53" width="150" height="34" rx="8" />
+                  <rect x="588" y="105" width="150" height="34" rx="8" />
+                  <rect x="588" y="160" width="150" height="34" rx="8" />
+                </g>
+                <g fill="var(--red)" text-anchor="middle" font-weight="600"><text x="663" y="74">Cerveau ·
+                    neurodév.</text><text x="663" y="126">Rein</text><text x="663" y="181">Système immunitaire</text></g>
+              </g>
+            </svg>
+          </div>
+          <p class="fig" style="margin-top:8px"><b>ROS</b> = espèces réactives de l'oxygène (radicaux qui abîment les
+            cellules).</p>
+        </div>
       </div>
-      <div class="card">
-        <div class="shead" style="margin-bottom:6px">
-          <h2 style="font-size:18px">Voies biologiques enrichies</h2>
-          <div class="cap">Nombre de gènes associés au mercure par voie.</div>
+
+      <!-- Tab 2: Module 2 · Bioinformatique -->
+      <div id="sciTab-bio" style="display:none">
+        <div class="card">
+          <div class="kicker">Module 2 · Bioinformatique</div>
+          <h2 style="font-size:22px;margin:6px 0 8px">Toxicogénomique du mercure</h2>
+          <p style="font-size:13px;color:var(--muted);margin:0">Gènes et protéines ciblés, voies enrichies, réseau
+            d'interactions. Sous-ensemble <b>curé de la littérature</b> (type Comparative Toxicogenomics Database) — pas
+            une requête en direct. En production : API CTD + STRING.</p>
         </div>
-        <div class="enr" id="enrBars"></div>
-      </div>
-      <div class="card">
-        <div class="shead" style="margin-bottom:6px">
-          <h2 style="font-size:18px">Gènes &amp; protéines associés</h2>
-          <div class="cap">Filtre par voie.</div>
+        <div class="card">
+          <div class="shead" style="margin-bottom:6px">
+            <h2 style="font-size:18px">Voies biologiques enrichies</h2>
+            <div class="cap">Nombre de gènes associés au mercure par voie.</div>
+          </div>
+          <div class="enr" id="enrBars"></div>
         </div>
-        <div class="chips" id="geneChips"></div>
-        <div class="genewrap">
-          <table class="genes">
-            <thead>
-              <tr>
-                <th>Gène</th>
-                <th>Protéine / rôle</th>
-                <th>Interaction</th>
-                <th>Voie</th>
-                <th>Preuve</th>
-              </tr>
-            </thead>
-            <tbody id="geneBody"></tbody>
-          </table>
+        <div class="card">
+          <div class="shead" style="margin-bottom:6px">
+            <h2 style="font-size:18px">Gènes &amp; protéines associés</h2>
+            <div class="cap">Filtre par voie.</div>
+          </div>
+          <div class="chips" id="geneChips"></div>
+          <div class="genewrap">
+            <table class="genes">
+              <thead>
+                <tr>
+                  <th>Gène</th>
+                  <th>Protéine / rôle</th>
+                  <th>Interaction</th>
+                  <th>Voie</th>
+                  <th>Preuve</th>
+                </tr>
+              </thead>
+              <tbody id="geneBody"></tbody>
+            </table>
+          </div>
         </div>
-      </div>
-      <div class="card">
-        <div class="shead" style="margin-bottom:6px">
-          <h2 style="font-size:18px">Réseau d'interactions protéine–protéine</h2>
-          <div class="cap">Nœud = gène (taille ∝ connexions) · couleur = voie · survole un nœud.</div>
-        </div>
-        <div class="net"><svg id="netSvg" viewBox="0 0 720 440" role="img"
-            aria-label="Réseau d'interactions des gènes du mercure"></svg></div>
-        <div class="nettip" id="netTip">Hubs : <b>NFE2L2 (NRF2)</b>, TP53, IL6, NFKB1, HMOX1 — cibles convergentes.
+        <div class="card">
+          <div class="shead" style="margin-bottom:6px">
+            <h2 style="font-size:18px">Réseau d'interactions protéine–protéine</h2>
+            <div class="cap">Nœud = gène (taille ∝ connexions) · couleur = voie · survole un nœud.</div>
+          </div>
+          <div class="net"><svg id="netSvg" viewBox="0 0 720 440" role="img"
+              aria-label="Réseau d'interactions des gènes du mercure"></svg></div>
+          <div class="nettip" id="netTip">Hubs : <b>NFE2L2 (NRF2)</b>, TP53, IL6, NFKB1, HMOX1 — cibles convergentes.
+          </div>
         </div>
       </div>
       <div class="card">
