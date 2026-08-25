@@ -1280,3 +1280,13 @@ footer.foot {
   width: 19px;
   height: 19px
 }
+/* ---------- schéma mécanismes (HTML, sans débordement) ---------- */
+.mechflow{display:grid;grid-template-columns:0.9fr 1.3fr 1.2fr;gap:14px;align-items:start}
+@media(max-width:640px){.mechflow{grid-template-columns:1fr;gap:16px}}
+.mf-col{display:flex;flex-direction:column;gap:8px}
+.mf-src{justify-content:flex-start}
+.mf-lab{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:2px}
+.mf-node{border:1px solid var(--line-2);background:var(--card-2);border-radius:10px;padding:10px 12px;font-family:var(--mono);font-size:12px;line-height:1.35;color:var(--ink)}
+.mf-node.src{background:var(--red);border-color:var(--red);color:#fff;font-weight:600;text-align:center}
+.mf-node.src small{display:block;font-weight:400;opacity:.85;font-size:10px;margin-top:2px}
+.mf-node.organ{background:var(--red-bg);border-color:var(--red);color:var(--red);font-weight:600}

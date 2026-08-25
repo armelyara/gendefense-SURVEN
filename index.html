@@ -122,9 +122,7 @@
           </div>
           <div class="disclaimer"><span>⚠</span>
             <div><b>Simulateur de scénarios.</b> Les concentrations de mercure sont des hypothèses ajustables ; les
-              seuils
-              (OMS/JECFA) et les effets sont réels. On répond à « si le mercure atteint X, alors… » — jamais un
-              diagnostic.</div>
+              seuils (OMS/JECFA) et les effets sont réels. C'est un outil de simulation, pas un diagnostic.</div>
           </div>
         </div>
         <div>
@@ -150,48 +148,10 @@
         <div class="kicker">Les plus exposés</div>
         <h2>Qui est en première ligne</h2>
       </div>
-      <p class="fig" style="margin:-4px 0 14px">Des effets à surveiller pour ces groupes</p>
+      <p class="fig" id="ex_lead" style="margin:-4px 0 14px">Des effets à surveiller pour ces groupes — gravité selon la
+        zone active.</p>
       <div class="card">
-        <div class="exlist">
-          <div class="exrow">
-            <div class="th"><svg viewBox="0 0 24 24">
-                <circle cx="12" cy="7" r="3.2" />
-                <path d="M12 10.5c-1 3-1 6 0 10" />
-              </svg></div>
-            <div style="flex:1">
-              <div class="nm">Femmes enceintes &amp; fœtus</div>
-              <div class="d">Neurodéveloppement · transfert placentaire</div>
-            </div><span class="sev" style="color:var(--red)">●●●●</span>
-          </div>
-          <div class="exrow">
-            <div class="th"><svg viewBox="0 0 24 24">
-                <circle cx="12" cy="8" r="3" />
-                <path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
-              </svg></div>
-            <div style="flex:1">
-              <div class="nm">Nourrissons &amp; enfants</div>
-              <div class="d">Cognition · motricité · vision · audition</div>
-            </div><span class="sev" style="color:var(--orange)">●●●○</span>
-          </div>
-          <div class="exrow">
-            <div class="th"><svg viewBox="0 0 24 24">
-                <path d="M12 3v18M5 8l7 4 7-4" />
-              </svg></div>
-            <div style="flex:1">
-              <div class="nm">Orpailleurs</div>
-              <div class="d">Vapeurs de mercure élémentaire · rein · système nerveux</div>
-            </div><span class="sev" style="color:var(--orange)">●●●○</span>
-          </div>
-          <div class="exrow">
-            <div class="th"><svg viewBox="0 0 24 24">
-                <path d="M4 14c3-6 13-6 16 0M8 14a4 4 0 0 0 8 0" />
-              </svg></div>
-            <div style="flex:1">
-              <div class="nm">Gros consommateurs de poisson</div>
-              <div class="d">Bioaccumulation du méthylmercure</div>
-            </div><span class="sev" style="color:var(--gold)">●●○○</span>
-          </div>
-        </div>
+        <div class="exlist" id="exlist"></div>
       </div>
       <div class="card flat">
         <div class="kicker" style="color:var(--faint)">Mécanisme</div>
@@ -280,36 +240,8 @@
         <h2>Ce qu'on peut faire</h2>
       </div>
       <div class="card">
-        <div class="hzblock">
-          <div class="hh" style="border-color:var(--red)">
-            <h3 style="color:var(--red)">Immédiat</h3><span class="when">0–3 mois</span>
-          </div>
-          <ul>
-            <li>Réduire la consommation des espèces à forte accumulation</li>
-            <li>Alerter les zones urgentes</li>
-            <li>Sécuriser l'eau de boisson</li>
-          </ul>
-        </div>
-        <div class="hzblock">
-          <div class="hh" style="border-color:var(--gold)">
-            <h3 style="color:var(--gold)">Moyen terme</h3><span class="when">3–18 mois</span>
-          </div>
-          <ul>
-            <li>Biosurveillance volontaire (cheveux / sang)</li>
-            <li>Suivi maternel &amp; neurodéveloppemental</li>
-            <li>Confirmation analytique des poissons et de l'eau</li>
-          </ul>
-        </div>
-        <div class="hzblock">
-          <div class="hh" style="border-color:var(--green)">
-            <h3 style="color:var(--green)">Long terme</h3><span class="when">18 mois +</span>
-          </div>
-          <ul>
-            <li>Surveillance des sédiments</li>
-            <li>Suivi de la bioaccumulation</li>
-            <li>Cohortes longitudinales</li>
-          </ul>
-        </div>
+        <p class="fig" id="agir_lead" style="margin:0 0 14px"></p>
+        <div id="agirBlocks"></div>
       </div>
     </section>
 
@@ -370,60 +302,38 @@
       </div>
 
       <div class="tabs" id="sciTabs">
-        <button type="button" data-sci="meca" aria-pressed="true">Carte mécanistique</button>
+        <button type="button" data-sci="meca" aria-pressed="true">Mécanismes</button>
         <button type="button" data-sci="bio" aria-pressed="false">Analyse Bioinformatique</button>
       </div>
 
       <!-- Tab 1: Carte mécanistique -->
       <div id="sciTab-meca">
         <div class="card">
-          <div class="shead" style="margin-bottom:6px">
-            <h2 style="font-size:18px">Carte mécanistique — voies plausibles</h2>
-            <div class="cap">Polluant → mécanismes → organes. Hypothèses de la littérature (CTD, Reactome, GO), non un
+          <div class="shead" style="margin-bottom:10px">
+            <h2 style="font-size:18px">Comment le mercure agit dans le corps</h2>
+            <div class="cap">Du polluant aux organes — mécanismes plausibles (littérature CTD, Reactome, GO), pas un
               test.</div>
           </div>
-          <div class="mech">
-            <svg viewBox="0 0 760 250" role="img" aria-label="Mercure vers voies biologiques vers organes">
-              <defs>
-                <marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3.2" orient="auto">
-                  <path d="M0 0L7 3.2L0 6.4z" fill="var(--faintest)" />
-                </marker>
-              </defs>
-              <g stroke="var(--faintest)" stroke-width="1.3" fill="none" marker-end="url(#ar)" opacity=".7">
-                <path d="M150 125 C205 55 235 50 288 50" />
-                <path d="M150 125 C205 105 235 105 288 105" />
-                <path d="M150 125 C205 150 235 155 288 160" />
-                <path d="M150 125 C205 205 235 210 288 213" />
-                <path d="M470 50 C525 65 545 105 588 113" />
-                <path d="M470 105 C525 110 545 113 588 117" />
-                <path d="M470 160 C525 145 545 125 588 123" />
-                <path d="M470 213 C525 205 545 185 588 177" />
-              </g>
-              <g font-family="IBM Plex Mono, monospace" font-size="11.5">
-                <rect x="42" y="103" width="108" height="44" rx="9" fill="var(--red)" /><text x="96" y="121"
-                  text-anchor="middle" fill="#fff" font-weight="600">Hg / MeHg</text><text x="96" y="136"
-                  text-anchor="middle" fill="#ffffffcc" font-size="9.5">exposition</text>
-                <g fill="var(--card-2)" stroke="var(--line-2)">
-                  <rect x="288" y="33" width="182" height="34" rx="8" />
-                  <rect x="288" y="88" width="182" height="34" rx="8" />
-                  <rect x="288" y="143" width="182" height="34" rx="8" />
-                  <rect x="288" y="196" width="182" height="34" rx="8" />
-                </g>
-                <g fill="var(--ink)" text-anchor="middle"><text x="379" y="54">Stress oxydatif (ROS)</text><text x="379"
-                    y="109">Liaison thiols · glutathion ↓</text><text x="379" y="164">Dysfonction
-                    mitochondriale</text><text x="379" y="217">Neuro-inflammation · apoptose</text></g>
-                <g fill="var(--red-bg)" stroke="var(--red)">
-                  <rect x="588" y="53" width="150" height="34" rx="8" />
-                  <rect x="588" y="105" width="150" height="34" rx="8" />
-                  <rect x="588" y="160" width="150" height="34" rx="8" />
-                </g>
-                <g fill="var(--red)" text-anchor="middle" font-weight="600"><text x="663" y="74">Cerveau ·
-                    neurodév.</text><text x="663" y="126">Rein</text><text x="663" y="181">Système immunitaire</text>
-                </g>
-              </g>
-            </svg>
+          <div class="mechflow">
+            <div class="mf-col mf-src">
+              <div class="mf-lab">Source</div>
+              <div class="mf-node src">Hg / MeHg<small>exposition</small></div>
+            </div>
+            <div class="mf-col">
+              <div class="mf-lab">Mécanismes cellulaires</div>
+              <div class="mf-node">Stress oxydatif (ROS)</div>
+              <div class="mf-node">Liaison aux thiols · glutathion ↓</div>
+              <div class="mf-node">Dysfonction mitochondriale</div>
+              <div class="mf-node">Neuro-inflammation · apoptose</div>
+            </div>
+            <div class="mf-col">
+              <div class="mf-lab">Organes touchés</div>
+              <div class="mf-node organ">Cerveau · neurodéveloppement</div>
+              <div class="mf-node organ">Rein</div>
+              <div class="mf-node organ">Système immunitaire</div>
+            </div>
           </div>
-          <p class="fig" style="margin-top:8px"><b>ROS</b> = espèces réactives de l'oxygène (radicaux qui abîment les
+          <p class="fig" style="margin-top:12px"><b>ROS</b> = espèces réactives de l'oxygène (radicaux qui abîment les
             cellules).</p>
         </div>
       </div>

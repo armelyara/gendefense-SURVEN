@@ -370,9 +370,75 @@
     }).join("");
   }
 
+  /*  exposés (dynamique selon la zone)  */
+  var BAND_BASE = { faible: 1, modere: 2, eleve: 3, urgent: 4 };
+  var EXGROUPS = [
+    { key: "enceintes", nom: "Femmes enceintes & fœtus", d: "Neurodéveloppement · transfert placentaire", bonus: 1,
+      icon: '<circle cx="12" cy="7" r="3.2"/><path d="M12 10.5c-1 3-1 6 0 10"/>' },
+    { key: "enfants", nom: "Nourrissons & enfants", d: "Cognition · motricité · vision · audition", bonus: 0,
+      icon: '<circle cx="12" cy="8" r="3"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/>' },
+    { key: "orpailleurs", nom: "Orpailleurs", d: "Vapeurs de mercure élémentaire · rein · système nerveux", bonus: 0,
+      icon: '<path d="M12 3v18M5 8l7 4 7-4"/>' },
+    { key: "consommateurs", nom: "Gros consommateurs de poisson", d: "Bioaccumulation du méthylmercure", bonus: -1,
+      icon: '<path d="M4 14c3-6 13-6 16 0M8 14a4 4 0 0 0 8 0"/>' }
+  ];
+  function dotsHTML(n, col) {
+    n = Math.max(1, Math.min(4, n));
+    return '<span style="color:' + col + '">' + Array(n + 1).join("●") + '</span>' +
+           '<span style="color:var(--line-2)">' + Array(4 - n + 1).join("○") + '</span>';
+  }
+  function renderExposes() {
+    var box = $("exlist"); if (!box) return;
+    var s = SITES[sel], t = tier(hqJ(s)), col = cget(t.v), base = BAND_BASE[t.k] || 1;
+    if ($("ex_lead")) $("ex_lead").textContent = "Des effets à surveiller pour ces groupes — gravité pour " + s.nom + " (risque " + t.label.toLowerCase() + ").";
+    box.innerHTML = EXGROUPS.map(function (g) {
+      var n = Math.max(1, Math.min(4, base + g.bonus));
+      return '<div class="exrow">' +
+        '<div class="th"><svg viewBox="0 0 24 24">' + g.icon + '</svg></div>' +
+        '<div style="flex:1"><div class="nm">' + g.nom + '</div><div class="d">' + g.d + '</div></div>' +
+        '<span class="sev">' + dotsHTML(n, col) + '</span>' +
+        '</div>';
+    }).join("");
+  }
+
+  /*  agir (dynamique selon la zone)  */
+  var AGIR = {
+    faible: {
+      immediat: ["Informer la population locale", "Surveiller la couleur et la turbidité de l'eau"],
+      moyen: ["Établir une mesure de référence (poisson, eau)", "Sensibiliser les pêcheurs"],
+      long: ["Suivi environnemental de fond", "Encadrer les pratiques d'orpaillage"]
+    },
+    modere: {
+      immediat: ["Réduire la consommation des espèces les plus contaminées", "Sécuriser l'eau de boisson"],
+      moyen: ["Confirmer par des mesures poisson/eau", "Suivi des femmes enceintes et des enfants"],
+      long: ["Suivre la bioaccumulation", "Réduire les rejets à la source"]
+    },
+    eleve: {
+      immediat: ["Alerter la zone", "Réduire fortement la consommation de poisson local", "Sécuriser / traiter l'eau de boisson"],
+      moyen: ["Biosurveillance volontaire (cheveux / sang)", "Suivi maternel & neurodéveloppemental", "Confirmation analytique poissons et eau"],
+      long: ["Surveillance des sédiments", "Cohortes longitudinales", "Restauration progressive des sites"]
+    },
+    urgent: {
+      immediat: ["Limiter / interdire la consommation des espèces à risque", "Fournir une eau sûre", "Confirmer les mesures en urgence"],
+      moyen: ["Prise en charge sanitaire des groupes exposés", "Biosurveillance élargie"],
+      long: ["Dépollution des sédiments", "Restauration environnementale", "Surveillance de longue durée"]
+    }
+  };
+  function renderAgir() {
+    var box = $("agirBlocks"); if (!box) return;
+    var s = SITES[sel], t = tier(hqJ(s)), a = AGIR[t.k] || AGIR.faible;
+    if ($("agir_lead")) $("agir_lead").textContent = "Priorités adaptées au risque de " + s.nom + " (HQ " + fmt(hqJ(s), 1) + ", risque " + t.label.toLowerCase() + ").";
+    var blocks = [["Immédiat", "0–3 mois", "--red", a.immediat], ["Moyen terme", "3–18 mois", "--gold", a.moyen], ["Long terme", "18 mois +", "--green", a.long]];
+    box.innerHTML = blocks.map(function (b) {
+      return '<div class="hzblock"><div class="hh" style="border-color:var(' + b[2] + ')">' +
+        '<h3 style="color:var(' + b[2] + ')">' + b[0] + '</h3><span class="when">' + b[1] + '</span></div><ul>' +
+        b[3].map(function (li) { return "<li>" + li + "</li>"; }).join("") + '</ul></div>';
+    }).join("");
+  }
+
   /*  render all  */
   function renderAll() {
-    renderUne(); renderZones(); renderScience(); renderProjection(); renderConsequences();
+    renderUne(); renderZones(); renderScience(); renderProjection(); renderConsequences(); renderExposes(); renderAgir();
     if (mapInited) drawMarkers();
   }
 
