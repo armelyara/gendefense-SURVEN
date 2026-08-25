@@ -410,6 +410,6 @@
 
   /*  init  */
   buildChips(); syncChips(); renderGenes(); renderEnrich(); buildNet();
-  initControls(); initCSV();
+  initControls();
   renderAll();
 })();
