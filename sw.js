@@ -1,5 +1,5 @@
 /* GenDefense-SURVEN — service worker æ*/
-var CACHE = "gends-surven-2026-08-24";
+var CACHE = "gends-surven-2026-08-26";
 var ASSETS = [
   "./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest",
   "./data/sites.js", "./data/geo.js", "./data/tox.js",
