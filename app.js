@@ -1,4 +1,4 @@
-/* GenDefense · SURVEN — application (migrée sur core.js : modèle unique + rendu sûr) */
+/* GenDefense · SURVEN — application */
 (function () {
   "use strict";
   if (!window.GD) { console.error("core.js manquant (doit être chargé avant app.js)"); return; }
@@ -11,15 +11,15 @@
   var GEO = window.MS_GEO || { civ: [], neighbors: {}, bbox: [-8.6, 4.3, -2.5, 10.5] };
   var TOX = window.MS_TOX || { nodes: [], edges: [], pathways: {}, enrich: [], hubs: [] };
 
-  var A = { portion: 200, meals: 7, weight: 60, waterL: 2 };  // hypothèses d'exposition (mutable)
-  var sel = 0;                                                // zone sélectionnée
-  var scen = "statuquo";                                      // scénario de projection
-  var current = "une";                                        // écran actif
+  var A = { portion: 200, meals: 7, weight: 60, waterL: 2 };
+  var sel = 0;
+  var scen = "statuquo";
+  var current = "une";
   var mapInited = false, LMAP = null, MLAYER = null;
 
   function hqJ(s) { return GD.hq(s, A); }
 
-  /* ---------- navigation : rend UNIQUEMENT l'écran actif ---------- */
+  /* navigation */
   var RENDER = {
     une: renderUne,
     carte: function () { renderZones(); drawMarkers(); },
@@ -48,7 +48,7 @@
 
   function selectSite(i) { sel = i; renderActive(); if (mapInited) drawMarkers(); }
 
-  /* ---------- carte (Leaflet + OSM) ---------- */
+  /* map */
   function ensureMap() {
     var box = $("map"); if (!box) return;
     if (!mapInited) {
@@ -75,7 +75,7 @@
     });
   }
 
-  /* ---------- liste des zones (rendu sûr) ---------- */
+  /* zone list */
   function renderZones() {
     var box = $("zlist"); if (!box) return;
     var order = SITES.map(function (s, i) { return i; }).sort(function (a, b) { return hqJ(SITES[b]) - hqJ(SITES[a]); });
@@ -93,7 +93,7 @@
     box.textContent = ""; box.appendChild(frag);
   }
 
-  /* ---------- Une ---------- */
+  /* homepage */
   function renderUne() {
     var s = SITES[sel]; if (!$("u_hq")) return;
     var hq = hqJ(s), t = risk(hq), col = color(t.token);
@@ -109,7 +109,7 @@
     drawProjection($("u_spark"), s, "statuquo", true);
   }
 
-  /* ---------- Science (barres = valeurs seules, pas de donnée non fiable) ---------- */
+  /* Science */
   function renderScience() {
     var s = SITES[sel]; if (!$("bars")) return;
     $("sc_zone").textContent = s.nom;
@@ -131,7 +131,7 @@
     $("d_water").textContent = fmt(dw, 3);
   }
 
-  /* ---------- projection (SVG numérique, sans donnée utilisateur) ---------- */
+  /* projection */
   var YEARS = []; for (var y = 2024; y <= 2034; y++) YEARS.push(y);
   var TODAY = new Date().getFullYear();
   function projSeries(base, sc) {
@@ -172,7 +172,7 @@
       svg += '<text x="' + (W - PR) + '" y="' + (H - 4) + '" text-anchor="end" style="font:500 8px \'IBM Plex Mono\';fill:' + color("--faintest") + '">2034</text>';
     }
     svg += '</svg>';
-    container.innerHTML = svg; // sûr : uniquement des nombres/tokens, aucune donnée utilisateur
+    container.innerHTML = svg;
   }
   function renderProjection() {
     var s = SITES[sel]; if (!$("projChart")) return;
@@ -184,7 +184,7 @@
     $("p_zone").textContent = s.nom;
   }
 
-  /* ---------- Conséquences (source unique GD.BANDS, rendu sûr) ---------- */
+  /* consequences */
   function renderConsequences() {
     if (!$("cq_env")) return;
     var s = SITES[sel], hq = hqJ(s), t = risk(hq), col = color(t.token);
@@ -207,8 +207,8 @@
   }
   function fillList(box, nodes) { if (!box) return; box.textContent = ""; nodes.forEach(function (n) { box.appendChild(n); }); }
 
-  /* ---------- Exposés (dynamique, source unique) ---------- */
-  function svgIcon(inner) { var s = mk("svg", { viewBox: "0 0 24 24" }); s.innerHTML = inner; return s; } // inner = constantes internes
+  /* Exposed */
+  function svgIcon(inner) { var s = mk("svg", { viewBox: "0 0 24 24" }); s.innerHTML = inner; return s; }
   var ICONS = {
     enceintes: '<circle cx="12" cy="7" r="3.2"/><path d="M12 10.5c-1 3-1 6 0 10"/>',
     enfants: '<circle cx="12" cy="8" r="3"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/>',
@@ -232,7 +232,7 @@
     }));
   }
 
-  /* ---------- Agir (source unique) ---------- */
+  /* Take action */
   function renderAgir() {
     var box = $("agirBlocks"); if (!box) return;
     var s = SITES[sel], t = risk(hqJ(s)), a = t.agir || { immediat: [], moyen: [], long: [] };
@@ -245,7 +245,7 @@
     }));
   }
 
-  /* ---------- Module 2 : toxicogénomique (construit une fois) ---------- */
+  /* toxicogenomic */
   var activeCat = null;
   function catColor(c) { return "var(--cat-" + c + ")"; }
   function renderEnrich() {
@@ -306,7 +306,7 @@
     });
     svg.appendChild(gn);
   }
-  function showTip(n) {   // rendu sûr (données gènes traitées comme non fiables)
+  function showTip(n) {
     var tip = $("netTip"); if (!tip) return;
     fillList(tip, [el("b", { text: n.g }), " — " + n.name + " · " + (TOX.pathways[n.cat] || "") + " · " + n.act + " · " + n.deg + " connexions"]);
   }
@@ -317,7 +317,7 @@
   }
   function highlightNet() { for (var k in netEls) { if (k[0] === "_") continue; var e = netEls[k]; var dim = activeCat && e.node.cat !== activeCat; e.c.setAttribute("opacity", dim ? ".14" : ".9"); e.t.style.opacity = (activeCat ? (e.node.cat === activeCat && e.hub ? "1" : "0") : (e.hub ? "1" : "0")); } }
 
-  /* ---------- contrôles ---------- */
+  /* controls */
   function initControls() {
     ["portion", "meals", "weight"].forEach(function (id) {
       var e = $(id); if (!e) return;
@@ -339,19 +339,18 @@
         if (bi) bi.style.display = key === "bio" ? "" : "none";
       });
     });
-    // suit le thème système : rafraîchit le cache couleurs et re-rend
+    // follow system theme : refresh color cache and re-render
     if (window.matchMedia) {
       var mq = matchMedia("(prefers-color-scheme: dark)");
       (mq.addEventListener ? mq.addEventListener.bind(mq, "change") : mq.addListener.bind(mq))(function () { GD.refreshColors(); renderActive(); if (mapInited) drawMarkers(); });
     }
   }
 
-  /* ---------- init ---------- */
+  /* init */
   buildChips(); syncChips(); renderGenes(); renderEnrich(); buildNet();
   initControls();
-  // écran de départ = celui marqué actif dans le HTML (sinon "carte")
   var startEl = document.querySelector(".screen.active");
   var start = startEl ? startEl.id.replace(/^s-/, "") : "carte";
   if (!RENDER[start]) start = "carte";
-  showScreen(start);   // synchronise nav + écran actif + rendu + carte
+  showScreen(start);
 })();

@@ -139,7 +139,7 @@
     var e = document.createElement(tag), k;
     if (attrs) for (k in attrs) {
       if (k === "class") e.className = attrs[k];
-      else if (k === "text") e.textContent = attrs[k];        // texte = toujours sûr
+      else if (k === "text") e.textContent = attrs[k];
       else if (k === "style") e.style.cssText = attrs[k];
       else e.setAttribute(k, attrs[k]);
     }

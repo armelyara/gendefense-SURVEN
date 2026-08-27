@@ -1,4 +1,4 @@
-/* GenDefense · enregistrement du service worker + bouton d'installation (externalisé pour la CSP) */
+/* PWA */
 (function () {
   "use strict";
   if ("serviceWorker" in navigator) {
