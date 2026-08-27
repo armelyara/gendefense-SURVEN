@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://tile.openstreetmap.org; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>GenDefense — SURVEN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#faf7f2">
@@ -484,7 +486,7 @@
     <button data-screen="carte" aria-current="true"><svg viewBox="0 0 24 24">
         <path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14" />
       </svg>Carte</button>
-    <button data-screen="Investigation"><svg viewBox="0 0 24 24">
+    <button data-screen="une"><svg viewBox="0 0 24 24">
         <path d="M4 5h16M4 10h10M4 15h16M4 20h7" />
       </svg>Investigation</button>
     <button data-screen="exposes"><svg viewBox="0 0 24 24">
@@ -509,25 +511,9 @@
   <script src="data/geo.js"></script>
   <script src="data/tox.js"></script>
   <script src="data/sites.js"></script>
+  <script src="core.js"></script>
   <script src="app.js"></script>
-  <script>
-    /* PWA */
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () { }); });
-    }
-    (function () {
-      var deferred = null, btn = document.getElementById("installBtn");
-      window.addEventListener("beforeinstallprompt", function (e) {
-        e.preventDefault(); deferred = e; if (btn) btn.style.display = "inline-flex";
-      });
-      if (btn) btn.addEventListener("click", function () {
-        if (!deferred) return;
-        deferred.prompt();
-        deferred.userChoice.finally(function () { deferred = null; btn.style.display = "none"; });
-      });
-      window.addEventListener("appinstalled", function () { if (btn) btn.style.display = "none"; });
-    })();
-  </script>
+  <script src="pwa.js"></script>
 </body>
 
 </html>

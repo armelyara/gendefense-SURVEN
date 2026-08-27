@@ -1,43 +1,65 @@
-/* GenDefense-SURVEN — service worker æ*/
-var CACHE = "gends-surven-2026-08-26";
+/* ============================================================
+   GenDefense · service worker (durci)
+   - précache = coquille MÊME ORIGINE seulement
+   - même origine : stale-while-revalidate (rapide + à jour)
+   - origines tierces (tuiles OSM, polices) : réseau seul, cache borné et purgé
+     -> supprime la croissance illimitée du cache (risque de saturation stockage)
+   ============================================================ */
+var VERSION = "gends-2026-08-26";                 // build id — bump à chaque déploiement
+var SHELL = VERSION + "-shell";
+var RUNTIME = VERSION + "-runtime";               // cache tiers, borné
+var RUNTIME_MAX = 60;                             // nb max d'entrées tierces
+
 var ASSETS = [
-  "./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest",
-  "./data/sites.js", "./data/geo.js", "./data/tox.js",
+  "./", "./index.html", "./styles.css", "./app.js", "./core.js", "./manifest.webmanifest",
+  "./pwa.js", "./data/sites.js", "./data/geo.js", "./data/tox.js",
   "./vendor/leaflet.js", "./vendor/leaflet.css",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png"
 ];
 
 self.addEventListener("install", function (e) {
-  e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(ASSETS); }).then(function () { return self.skipWaiting(); }));
+  e.waitUntil(caches.open(SHELL).then(function (c) { return c.addAll(ASSETS); }).then(function () { return self.skipWaiting(); }));
 });
 
 self.addEventListener("activate", function (e) {
   e.waitUntil(
     caches.keys().then(function (keys) {
-      return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
+      return Promise.all(keys
+        .filter(function (k) { return k !== SHELL && k !== RUNTIME; })
+        .map(function (k) { return caches.delete(k); }));
     }).then(function () { return self.clients.claim(); })
   );
 });
 
+function trim(cacheName, max) {
+  caches.open(cacheName).then(function (c) {
+    c.keys().then(function (keys) { if (keys.length > max) c.delete(keys[0]).then(function () { trim(cacheName, max); }); });
+  });
+}
+
 self.addEventListener("fetch", function (e) {
   if (e.request.method !== "GET") return;
   var url = new URL(e.request.url);
-  if (url.protocol !== "http:" && url.protocol !== "https:") return;
-  if (url.origin !== location.origin) {
-    e.respondWith(fetch(e.request).then(function (resp) {
-      if (resp.status === 200) {
-        var copy = resp.clone();
-        caches.open(CACHE).then(function (c) { try { c.put(e.request, copy); } catch (_) { } });
-      }
-      return resp;
-    }).catch(function () { return caches.match(e.request); }));
+
+  // Origines tierces (tuiles OSM, Google Fonts) : réseau d'abord, cache borné en secours.
+  if (url.origin !== self.location.origin) {
+    e.respondWith(
+      fetch(e.request).then(function (res) {
+        if (res && res.ok) { var copy = res.clone(); caches.open(RUNTIME).then(function (c) { c.put(e.request, copy); trim(RUNTIME, RUNTIME_MAX); }); }
+        return res;
+      }).catch(function () { return caches.match(e.request); })
+    );
     return;
   }
-  e.respondWith(caches.match(e.request).then(function (r) {
-    return r || fetch(e.request).then(function (resp) {
-      var copy = resp.clone();
-      caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
-      return resp;
-    }).catch(function () { return caches.match("./index.html"); });
-  }));
+
+  // Même origine (coquille) : stale-while-revalidate.
+  e.respondWith(
+    caches.match(e.request).then(function (cached) {
+      var net = fetch(e.request).then(function (res) {
+        if (res && res.ok) { var copy = res.clone(); caches.open(SHELL).then(function (c) { c.put(e.request, copy); }); }
+        return res;
+      }).catch(function () { return cached || caches.match("./index.html"); });
+      return cached || net;
+    })
+  );
 });
