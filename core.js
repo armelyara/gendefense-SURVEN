@@ -39,12 +39,12 @@
   }
   function children(site) { return Math.round((site.pop || 0) * (site.pctChild || 0) / 100); }
 
-  /* Risk Bands (single source) */
+  /* Risk Bands */
   var GROUPS = [
-    { key: "enceintes", nom: "Pregnant women & fetus", desc: "Neurodevelopment · placental transfer", exBonus: 1 },
-    { key: "enfants", nom: "Infants & children", desc: "Cognition · motor skills · vision · hearing", exBonus: 0 },
-    { key: "orpailleurs", nom: "Orpailleurs", desc: "Elemental mercury vapors · kidney · nerves", exBonus: 0 },
-    { key: "consommateurs", nom: "Gros consommateurs de poisson", desc: "Bioaccumulation du méthylmercure", exBonus: -1 }
+    { key: "enceintes", nom: "Femmes enceintes & foetus", desc: "Neurodéveloppement · transfert placentaire", exBonus: 1 },
+    { key: "enfants", nom: "Enfants", desc: "Cognition · motricité · vision · audition", exBonus: 0 },
+    { key: "orpailleurs", nom: "Orpailleurs", desc: "Vapeurs de mercure élémentaire · reins · nerfs", exBonus: 0 },
+    { key: "consommateurs", nom: "Consommateurs de poisson", desc: "Bioaccumulation du méthylmercure", exBonus: -1 }
   ];
 
   var BANDS = {
