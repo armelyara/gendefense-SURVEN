@@ -14,6 +14,7 @@
   var A = { portion: 200, meals: 7, weight: 60, waterL: 2 };
   var sel = 0;
   var scen = "statuquo";
+  var cnConc = 40;                 // cyanure dans l'eau (µg/L), hypothèse ajustable
   var current = "une";
   var mapInited = false, LMAP = null, MLAYER = null;
 
@@ -129,6 +130,25 @@
     box.textContent = ""; box.appendChild(frag);
     $("d_fish").textContent = fmt(df, 2); $("d_fish").style.color = color(risk(hq.JECFA).token);
     $("d_water").textContent = fmt(dw, 3);
+    renderCyanide();
+  }
+
+  /* Cyanure — contaminant distinct (voie eau), jamais additionné au mercure */
+  function renderCyanide() {
+    if (!$("cnConc")) return;
+    var C = GD.CYANIDE;
+    $("cn_mech").textContent = C.mech;
+    $("cn_aigu").textContent = C.aigu;
+    $("cn_chronique").textContent = C.chronique;
+    $("cn_cas").textContent = C.cas;
+    $("cn_ref").textContent = C.ref;
+    $("v_cn").textContent = cnConc + " µg/L";
+    var dose = GD.doseCyanide(cnConc, A), h = GD.hqCyanide(cnConc, A), t = risk(h), col = color(t.token);
+    $("cn_dose").textContent = fmt(dose, 3);
+    $("cn_hq").textContent = fmt(h, 1); $("cn_hq").style.color = col;
+    var pill = $("cn_pill"); pill.style.background = col + "1e"; pill.style.color = col;
+    pill.querySelector(".dot").style.background = col;
+    $("cn_pilltxt").textContent = "Risque " + t.label.toLowerCase();
   }
 
   /* projection */
@@ -323,6 +343,8 @@
       var e = $(id); if (!e) return;
       e.addEventListener("input", function () { A[id] = +e.value; renderActive(); if (mapInited) drawMarkers(); });
     });
+    var cn = $("cnConc");
+    if (cn) cn.addEventListener("input", function () { cnConc = +cn.value; renderCyanide(); });
     document.querySelectorAll("#scenTabs button").forEach(function (b) {
       b.addEventListener("click", function () {
         scen = b.dataset.s;

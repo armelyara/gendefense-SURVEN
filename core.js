@@ -7,6 +7,8 @@
   /* Toxicological constants (single source) */
   var REF = Object.freeze({ JECFA: 1.6 / 7, EFSA: 1.3 / 7, EPA: 0.10 }); // µg/kg/day MeHg
   var REF_INORG = 4 / 7;                                                 // µg/kg/day Hg inorganique
+  var REF_CN = 0.6;            // µg/kg/day — US EPA RfD, cyanure libre (chronique orale)
+  var WHO_CN_WATER = 70;      // µg/L — valeur guide OMS, cyanure dans l'eau de boisson
   var DEFAULTS = Object.freeze({ portion: 200, meals: 7, weight: 60, waterL: 2 });
 
   /* Calculations */
@@ -19,6 +21,13 @@
     a = a || DEFAULTS;
     return (site.hgWater || 0) * (a.waterL || DEFAULTS.waterL) / a.weight;
   }
+  /* Cyanure : contaminant distinct, voie EAU (ne bioaccumule pas dans le poisson comme le MeHg).
+     cn = concentration dans l'eau (µg/L) ; jamais additionné au mercure. */
+  function doseCyanide(cn, a) {
+    a = a || DEFAULTS;
+    return (cn || 0) * (a.waterL || DEFAULTS.waterL) / a.weight;
+  }
+  function hqCyanide(cn, a) { return doseCyanide(cn, a) / REF_CN; }
   function hq(site, a) { return doseFish(site, a) / REF.JECFA; }      // Reference HQ
   function hqAll(site, a) {
     var d = doseFish(site, a);
@@ -108,6 +117,15 @@
   };
   var NA = { label: "n/d", token: "--faint", base: 1, lead: "Donnée manquante.", env: [], health: {}, agir: { immediat: [], moyen: [], long: [] } };
 
+  /* Cyanure — contenu (mécanisme, effets, cas réel). Séparé du mercure. */
+  var CYANIDE = {
+    mech: "Le cyanure inhibe la cytochrome c oxydase : les cellules ne peuvent plus utiliser l'oxygène.",
+    aigu: "maux de tête, vertiges, nausées, essoufflement ; à forte dose, atteinte cardiaque et neurologique.",
+    chronique: "effets sur la thyroïde (via le thiocyanate) et le système nerveux.",
+    cas: "Cavally, juin 2024 — fuite d'eau cyanurée d'une mine d'or en amont (mine d'Ity, groupe Endeavour) ; environ 185 personnes légèrement intoxiquées après consommation de l'eau et du poisson du fleuve (autorités).",
+    ref: "Seuil OMS eau de boisson : 70 µg/L · dose de référence US EPA : 0,6 µg/kg/j (cyanure libre)."
+  };
+
   function bandKey(h) {
     if (h == null || isNaN(h)) return null;
     if (h < 1) return "faible";
@@ -155,9 +173,10 @@
   }
 
   root.GD = {
-    REF: REF, REF_INORG: REF_INORG, DEFAULTS: DEFAULTS,
-    GROUPS: GROUPS, BANDS: BANDS,
-    doseFish: doseFish, doseWater: doseWater, hq: hq, hqAll: hqAll,
+    REF: REF, REF_INORG: REF_INORG, REF_CN: REF_CN, WHO_CN_WATER: WHO_CN_WATER, DEFAULTS: DEFAULTS,
+    GROUPS: GROUPS, BANDS: BANDS, CYANIDE: CYANIDE,
+    doseFish: doseFish, doseWater: doseWater, doseCyanide: doseCyanide, hqCyanide: hqCyanide,
+    hq: hq, hqAll: hqAll,
     vulnerable: vulnerable, children: children, bandKey: bandKey, risk: risk,
     color: color, refreshColors: refreshColors,
     esc: esc, el: el, fmt: fmt

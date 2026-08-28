@@ -303,6 +303,39 @@
         </div>
       </div>
 
+      <!-- Cyanure : contaminant distinct (voie eau) -->
+      <div class="card" id="cyanide-card">
+        <div class="shead" style="margin-bottom:6px">
+          <div class="kicker" style="color:var(--teal)">Cyanure · l'autre danger de l'eau</div>
+          <h2 style="font-size:18px">Le cyanure des mines d'or</h2>
+          <div class="cap">Contaminant distinct du mercure — voie eau, effet rapide. Jamais additionné au mercure.</div>
+        </div>
+        <p id="cn_mech" style="font-size:13px;color:var(--muted);margin:0 0 12px"></p>
+        <div class="field"><label>Cyanure dans l'eau <b id="v_cn">40 µg/L</b></label><input type="range" id="cnConc"
+            min="0" max="140" step="5" value="40"></div>
+        <div class="doses">
+          <div class="dosebox">
+            <div class="t">Dose estimée</div>
+            <div class="d mono" id="cn_dose" style="color:var(--teal)">—</div>
+            <div class="sub">µg/kg/j — vs EPA 0,6</div>
+          </div>
+          <div class="dosebox">
+            <div class="t">Quotient de danger</div>
+            <div class="d mono" id="cn_hq">—</div>
+            <div class="sub"><span class="pill" id="cn_pill"><span class="dot"></span><span id="cn_pilltxt">—</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="refnote" style="margin:14px 0 0" id="cn_ref"></div>
+        <div style="margin-top:12px;display:grid;gap:8px">
+          <div class="cap"><b>Effet aigu —</b> <span id="cn_aigu"></span></div>
+          <div class="cap"><b>Exposition répétée —</b> <span id="cn_chronique"></span></div>
+        </div>
+        <div class="disclaimer" style="margin-top:12px"><span>◑</span>
+          <div><b>Cas réel.</b> <span id="cn_cas"></span></div>
+        </div>
+      </div>
+
       <div class="tabs" id="sciTabs">
         <button type="button" data-sci="meca" aria-pressed="true">Mécanismes</button>
         <button type="button" data-sci="bio" aria-pressed="false">Analyse Bioinformatique</button>
