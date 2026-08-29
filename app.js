@@ -14,16 +14,16 @@
   var A = { portion: 200, meals: 7, weight: 60, waterL: 2 };
   var sel = 0;
   var scen = "statuquo";
-  var cnConc = 40;                 // cyanure dans l'eau (µg/L), hypothèse ajustable
+  var cnConc = 40;                 // cyanide in water (µg/L), adjustable hypothesis
   var current = "une";
-  var mapInited = false, LMAP = null, MLAYER = null;
+  var mapInited = false, LMAP = null, MLAYER = null, MARKERS = [];
 
   function hqJ(s) { return GD.hq(s, A); }
 
   /* navigation */
   var RENDER = {
     une: renderUne,
-    carte: function () { renderZones(); drawMarkers(); },
+    carte: function () { renderZones(); drawMarkers(); renderNextStep(); },
     exposes: renderExposes,
     consequences: renderConsequences,
     projection: renderProjection,
@@ -47,7 +47,7 @@
     if (b) { e.preventDefault(); showScreen(b.dataset.screen); }
   });
 
-  function selectSite(i) { sel = i; renderActive(); if (mapInited) drawMarkers(); }
+  function selectSite(i) { sel = i; renderActive(); if (mapInited) drawMarkers(); renderNextStep(); pulseNextStep(); }
 
   /* map */
   function ensureMap() {
@@ -65,15 +65,67 @@
   function drawMarkers() {
     if (!MLAYER) return;
     MLAYER.clearLayers();
+    MARKERS = [];
     var ink = color("--ink");
     SITES.forEach(function (s, i) {
       var hq = hqJ(s), t = risk(hq), col = color(t.token), act = i === sel;
       var m = L.circleMarker([s.lat, s.lon], { radius: 7 + Math.sqrt(s.pop) / 13, color: act ? ink : "#fff", weight: act ? 3 : 1.5, fillColor: col, fillOpacity: .88 });
-      m.bindTooltip(esc(s.nom) + " — HQ " + fmt(hq, 1) + " · " + t.label, { direction: "top", offset: [0, -2] });  // esc : anti-XSS
-      m.on("click", (function (k) { return function () { selectSite(k); }; })(i));
+      m.bindTooltip(esc(s.nom) + " — HQ " + fmt(hq, 1) + " · " + t.label, { direction: "top", offset: [0, -2] }); // esc(): anti-XSS
+      m.bindPopup(makePopup(i));                 // click opens a popup with a "next step" CTA
+      m.on("click", (function (k) { return function () { onMarkerClick(k); }; })(i));
       m.addTo(MLAYER);
+      MARKERS.push({ m: m, i: i });
       if (act) m.bringToFront();
     });
+  }
+
+  /* Restyle existing markers for the current selection without clearing the layer,
+     so a popup opened by a marker click stays open. */
+  function styleMarkers() {
+    var ink = color("--ink");
+    MARKERS.forEach(function (o) {
+      var s = SITES[o.i], act = o.i === sel;
+      o.m.setStyle({ color: act ? ink : "#fff", weight: act ? 3 : 1.5, fillColor: color(risk(hqJ(s)).token) });
+      if (act) o.m.bringToFront();
+    });
+  }
+
+  /* Marker click: update selection + highlight in place and refresh the next-step
+     bar; the bound popup opens on the same click (no full redraw, popup survives). */
+  function onMarkerClick(i) { sel = i; styleMarkers(); renderNextStep(); pulseNextStep(); }
+
+  /* Popup body shown on marker click — routes the user to the detail screens. */
+  function makePopup(i) {
+    var s = SITES[i], h = hqJ(s), t = risk(h);
+    var box = el("div", { "class": "mappop" }, [
+      el("div", { "class": "mp-zone", text: s.nom }),                                  // text: anti-XSS
+      el("div", { "class": "mp-meta", text: "HQ " + fmt(h, 1) + " · risque " + t.label.toLowerCase() })
+    ]);
+    var cta = el("button", { "class": "mp-cta", text: "Voir l'enquête ›" });
+    cta.addEventListener("click", function () { if (LMAP) LMAP.closePopup(); showScreen("une"); });
+    box.appendChild(cta);
+    box.appendChild(el("div", { "class": "mp-more" }, [popNav("Exposés", "exposes"), popNav("Conséquences", "consequences")]));
+    return box;
+  }
+  function popNav(label, screen) {
+    var b = el("button", { text: label });
+    b.addEventListener("click", function () { if (LMAP) LMAP.closePopup(); showScreen(screen); });
+    return b;
+  }
+
+  /* Selected-zone bar under the map: zone name + risk pill, reflects current selection. */
+  function renderNextStep() {
+    if (!$("ns_zone")) return;
+    var s = SITES[sel], t = risk(hqJ(s)), col = color(t.token);
+    $("ns_zone").textContent = s.nom;
+    var pill = $("ns_pill"); pill.style.background = col + "1e"; pill.style.color = col;
+    pill.querySelector(".dot").style.background = col;
+    $("ns_pilltxt").textContent = "Risque " + t.label.toLowerCase();
+  }
+  /* Replay the one-shot attention pulse on the primary CTA. */
+  function pulseNextStep() {
+    var c = document.querySelector("#nextStep .ns-cta"); if (!c) return;
+    c.classList.remove("pulse"); void c.offsetWidth; c.classList.add("pulse");
   }
 
   /* zone list */

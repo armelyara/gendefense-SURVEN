@@ -7,8 +7,8 @@
   /* Toxicological constants (single source) */
   var REF = Object.freeze({ JECFA: 1.6 / 7, EFSA: 1.3 / 7, EPA: 0.10 }); // µg/kg/day MeHg
   var REF_INORG = 4 / 7;                                                 // µg/kg/day Hg inorganique
-  var REF_CN = 0.6;            // µg/kg/day — US EPA RfD, cyanure libre (chronique orale)
-  var WHO_CN_WATER = 70;      // µg/L — valeur guide OMS, cyanure dans l'eau de boisson
+  var REF_CN = 0.6;            // µg/kg/day — US EPA RfD, free cyanide (chronic oral)
+  var WHO_CN_WATER = 70;      // µg/L — WHO guideline value, cyanide in drinking water
   var DEFAULTS = Object.freeze({ portion: 200, meals: 7, weight: 60, waterL: 2 });
 
   /* Calculations */
@@ -21,8 +21,8 @@
     a = a || DEFAULTS;
     return (site.hgWater || 0) * (a.waterL || DEFAULTS.waterL) / a.weight;
   }
-  /* Cyanure : contaminant distinct, voie EAU (ne bioaccumule pas dans le poisson comme le MeHg).
-     cn = concentration dans l'eau (µg/L) ; jamais additionné au mercure. */
+  /* Cyanide: distinct contaminant, WATER route (does not bioaccumulate in fish like MeHg).
+     cn = concentration in water (µg/L); never summed with mercury. */
   function doseCyanide(cn, a) {
     a = a || DEFAULTS;
     return (cn || 0) * (a.waterL || DEFAULTS.waterL) / a.weight;
@@ -117,7 +117,7 @@
   };
   var NA = { label: "n/d", token: "--faint", base: 1, lead: "Donnée manquante.", env: [], health: {}, agir: { immediat: [], moyen: [], long: [] } };
 
-  /* Cyanure — contenu (mécanisme, effets, cas réel). Séparé du mercure. */
+  /* Cyanide — content (mechanism, effects, real case). Kept separate from mercury. */
   var CYANIDE = {
     mech: "Le cyanure inhibe la cytochrome c oxydase : les cellules ne peuvent plus utiliser l'oxygène.",
     aigu: "maux de tête, vertiges, nausées, essoufflement ; à forte dose, atteinte cardiaque et neurologique.",

@@ -62,6 +62,19 @@
           <span style="margin-left:auto">Point ∝ population</span>
         </div>
         <p class="fig" style="margin-top:10px">Fig. 1 — Zones prioritaires</p>
+        <!-- Selected-zone next-step bar: tells the user where the follow-up lives -->
+        <div class="nextstep" id="nextStep">
+          <div class="ns-txt">
+            <span class="ns-lead">Zone sélectionnée</span>
+            <b class="ns-zone" id="ns_zone">—</b>
+            <span class="pill" id="ns_pill"><span class="dot"></span><span id="ns_pilltxt">—</span></span>
+          </div>
+          <div class="ns-btns">
+            <button class="ns-cta" data-screen="une">Voir l'enquête ›</button>
+            <button class="ns-more" data-screen="exposes">Exposés</button>
+            <button class="ns-more" data-screen="consequences">Conséquences</button>
+          </div>
+        </div>
       </div>
       <div class="card">
         <div class="shead" style="margin-bottom:8px">
@@ -247,7 +260,6 @@
     <!-- Science -->
     <section class="screen" id="s-science">
       <div class="shead">
-        <div class="kicker">Sous le capot</div>
         <h2>La science du modèle</h2>
         <div class="cap">Comment le HQ est calculé, avec quelles références, et la couche bioinformatique.</div>
       </div>
@@ -507,7 +519,7 @@
     </section>
 
     <footer class="foot">
-      GenDefense-SURVEN — surveillance environnementale.<br>
+      GenDefense-SURVEN<br>
       Références : JECFA 1,6 µg/kg/sem · EFSA 1,3 µg/kg/sem · US EPA 0,1 µg/kg/j (méthylmercure).
     </footer>
   </main>
