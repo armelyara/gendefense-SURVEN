@@ -79,8 +79,7 @@
     });
   }
 
-  /* Restyle existing markers for the current selection without clearing the layer,
-     so a popup opened by a marker click stays open. */
+  /* Restyle existing markers for the current selection without clearing the layer */
   function styleMarkers() {
     var ink = color("--ink");
     MARKERS.forEach(function (o) {

@@ -4,7 +4,7 @@
 (function (root) {
   "use strict";
 
-  /* Toxicological constants (single source) */
+  /* Toxicological constants */
   var REF = Object.freeze({ JECFA: 1.6 / 7, EFSA: 1.3 / 7, EPA: 0.10 }); // µg/kg/day MeHg
   var REF_INORG = 4 / 7;                                                 // µg/kg/day Hg inorganique
   var REF_CN = 0.6;            // µg/kg/day — US EPA RfD, free cyanide (chronic oral)
