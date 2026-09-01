@@ -184,7 +184,7 @@
     renderCyanide();
   }
 
-  /* Cyanure — contaminant distinct (voie eau), jamais additionné au mercure */
+  /* Cyanure */
   function renderCyanide() {
     if (!$("cnConc")) return;
     var C = GD.CYANIDE;

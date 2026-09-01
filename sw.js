@@ -1,14 +1,8 @@
-/* ============================================================
-   GenDefense · service worker (durci)
-   - précache = coquille MÊME ORIGINE seulement
-   - même origine : stale-while-revalidate (rapide + à jour)
-   - origines tierces (tuiles OSM, polices) : réseau seul, cache borné et purgé
-     -> supprime la croissance illimitée du cache (risque de saturation stockage)
-   ============================================================ */
-var VERSION = "gends-2026-08-26";                 // build id — bump à chaque déploiement
+/* GenDefense - SURVEN · service worker */
+var VERSION = "gends-2026-08-26";             // build id
 var SHELL = VERSION + "-shell";
-var RUNTIME = VERSION + "-runtime";               // cache tiers, borné
-var RUNTIME_MAX = 60;                             // nb max d'entrées tierces
+var RUNTIME = VERSION + "-runtime";           // cache tiers
+var RUNTIME_MAX = 60;
 
 var ASSETS = [
   "./", "./index.html", "./styles.css", "./app.js", "./core.js", "./manifest.webmanifest",
@@ -41,7 +35,7 @@ self.addEventListener("fetch", function (e) {
   if (e.request.method !== "GET") return;
   var url = new URL(e.request.url);
 
-  // Origines tierces (tuiles OSM, Google Fonts) : réseau d'abord, cache borné en secours.
+  // Tierces origines
   if (url.origin !== self.location.origin) {
     e.respondWith(
       fetch(e.request).then(function (res) {
@@ -51,8 +45,6 @@ self.addEventListener("fetch", function (e) {
     );
     return;
   }
-
-  // Même origine (coquille) : stale-while-revalidate.
   e.respondWith(
     caches.match(e.request).then(function (cached) {
       var net = fetch(e.request).then(function (res) {
