@@ -1,4 +1,4 @@
-/* GenDefense · SURVEN — application */
+/* GenDefense-SURVEN . application */
 (function () {
   "use strict";
   if (!window.GD) { console.error("core.js manquant (doit être chargé avant app.js)"); return; }
@@ -184,7 +184,7 @@
     renderCyanide();
   }
 
-  /* Cyanure */
+  /* Cyanide */
   function renderCyanide() {
     if (!$("cnConc")) return;
     var C = GD.CYANIDE;
